@@ -28,7 +28,7 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 		FEquipmentData EquipmentData;
-
+	//FEquipmentData undefined 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 		FLinearColor EquipmentColor;
 
@@ -37,7 +37,7 @@ public:
 
        UPROPERTY(BlueprintReadOnly, EditAnywhere)
       TArray<FDoActionData> DoActionDatas;
-
+	   // undefiend type FDoActionData 
 
 
 

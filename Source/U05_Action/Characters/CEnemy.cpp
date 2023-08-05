@@ -163,7 +163,8 @@ void ACEnemy::Hitted()
 void ACEnemy::RestoreColor()
 {
 	// ¹Ù·Î È£ÃâÇÏ¸é ¾ÈµÊ µô·¹ÀÌ Á» °É¾î¾ß ´ï 
-	//must be delayed , 
+	//must be delayed ,  Action has error 
+	//pointer to incomplete class type is not allowed ? 
 	FLinearColor color = Action->GetCurrent()->GetEquipmentColor();
 
 	ChangeColor(color);
