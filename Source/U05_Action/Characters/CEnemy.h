@@ -4,7 +4,8 @@
 #include "GameFramework/Character.h"
 #include "Characters/ICharacter.h"
 #include "Components/CStateComponent.h"
-//#include "Components/CActionComponent.h"
+#include "Components/CActionComponent.h"
+#include "Actions/CAction.h" // CAction.헤더를 추가하면서 해결 
 #include "CEnemy.generated.h"
 
 UCLASS()

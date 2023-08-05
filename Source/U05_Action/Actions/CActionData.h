@@ -28,7 +28,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 		FEquipmentData EquipmentData;
-	//FEquipmentData undefined 
+
+	
+ 	//FEquipmentData undefined 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 		FLinearColor EquipmentColor;
 
