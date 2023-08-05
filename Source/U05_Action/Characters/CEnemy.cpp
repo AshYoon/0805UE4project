@@ -163,9 +163,10 @@ void ACEnemy::Hitted()
 void ACEnemy::RestoreColor()
 {
 	// ¹Ù·Î È£ÃâÇÏ¸é ¾ÈµÊ µô·¹ÀÌ Á» °É¾î¾ß ´ï 
-	//FLinearColor color = Action->GetCurrent()->GetEquipmentColor();
+	//must be delayed , 
+	FLinearColor color = Action->GetCurrent()->GetEquipmentColor();
 
-	//ChangeColor(color);
+	ChangeColor(color);
 }
 
 
