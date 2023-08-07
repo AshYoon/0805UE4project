@@ -8,6 +8,9 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttamentBeginOverlap, class ACharacter*, InAttacker, class AActor*, InAttackCauser, class ACharacter*, InOtherCharacter);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttamentEndOverlap, class ACharacter*, InAttacker, class AActor*, InAttackCauser, class ACharacter*, InOtherCharacter);
 
+
+
+
 // 콜리전 델리게이트 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAttachmentCollision);
 UCLASS()

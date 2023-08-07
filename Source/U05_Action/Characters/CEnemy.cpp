@@ -168,6 +168,7 @@ void ACEnemy::RestoreColor()
 	//Add  CAction to use GetEquipmentColor in ActionData get current() 
 	FLinearColor color = Action->GetCurrent()->GetEquipmentColor();
 
+
 	ChangeColor(color);
 }
 
