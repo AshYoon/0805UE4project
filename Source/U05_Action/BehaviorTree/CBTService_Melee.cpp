@@ -29,6 +29,8 @@ void UCBTService_Melee::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 	}
 
 	ACPlayer* target = behavior->GetTargetPlayer();
+
+
 	if (target == NULL)
 	{
 		//TODO: 패트롤 모드
@@ -49,6 +51,8 @@ void UCBTService_Melee::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 
 
 	float distance = ai->GetDistanceTo(target);
+
+
 	if (distance < controller->GetMeleeActionRange())
 	{
 		behavior->SetActionMode();

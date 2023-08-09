@@ -47,6 +47,6 @@ private:
 
 private:
 	class ACEnemy_AI* OwnerEnemy;
-	class UAISenseConfig_Sight* Sight;
+	class UAISenseConfig_Sight* Sight; // 시야만 사용함 
 
 };
