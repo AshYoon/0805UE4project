@@ -6,12 +6,23 @@
 #include "Components/CStateComponent.h"
 #include "Components/CActionComponent.h"
 #include "Actions/CAction.h" // CAction.헤더를 추가하면서 해결 
+#include "GenericTeamAgentInterface.h"
 #include "CEnemy.generated.h"
 
 UCLASS()
-class U05_ACTION_API ACEnemy : public ACharacter, public IICharacter
+class U05_ACTION_API ACEnemy : public ACharacter, public IICharacter , public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
+
+
+		
+public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "AI")
+		int32 ID = 0;
+
+
+	virtual FGenericTeamId GetGenericTeamId() const override { return TeamID; } //team id 세팅 
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Hitted")
 		float LaunchAmount = 100.0f;
@@ -43,6 +54,9 @@ public:
 	float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 protected:
 	virtual void BeginPlay() override;
+
+
+	FGenericTeamId TeamID; //TeamID변수 
 
 public:
 	virtual void Tick(float DeltaTime) override;

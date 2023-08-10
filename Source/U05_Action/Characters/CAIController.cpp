@@ -39,6 +39,9 @@ void ACAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
+
+
+
 }
 
 
@@ -48,7 +51,14 @@ void ACAIController::OnPossess(APawn* InPawn)
 
 
 	OwnerEnemy = Cast<ACEnemy_AI>(InPawn);
-	SetGenericTeamId(OwnerEnemy->GetTeamID());
+
+
+
+	//SetGenericTeamId(OwnerEnemy->GetTeamID());// 여기로 Team id를 가져옴 
+	TeamID = FGenericTeamId(OwnerEnemy->ID); // ai team id를 owner의 id로 세팅 
+
+
+
 
 	Perception->OnPerceptionUpdated.AddDynamic(this, &ACAIController::OnPerceptionUpdated);
 
@@ -65,6 +75,54 @@ void ACAIController::OnUnPossess()
 	Super::OnUnPossess();
 
 	Perception->OnPerceptionUpdated.Clear();
+}
+
+ETeamAttitude::Type ACAIController::GetTeamAttitudeTowards(const AActor & other) const
+{
+	// if pawn 
+	const APawn* OtherPawn = Cast<APawn>(&other);
+	if (OtherPawn == nullptr)
+	{
+		return ETeamAttitude::Neutral;
+	} // pawn 이 아닐경우 중립 
+
+
+	// 해당 액터가 genericTeamAgentinerface로 implement되었는지확인 ( 같은 interface로 묶였는지확인 ) 
+	// 만약 같은 interface ( IGenericTeamAgentInterface) 로 묶여있다면 캐스팅되고 아니면 neutral을 반환 
+	auto PlayerTI = Cast<IGenericTeamAgentInterface>(&other); // playerTeamId cast로 team id 받아오기 
+	class IGenericTeamAgentInterface* botTI = Cast<IGenericTeamAgentInterface>(OtherPawn->GetController());
+	if (botTI == nullptr && PlayerTI == nullptr)
+	{
+		return ETeamAttitude::Neutral;
+	}
+
+	//get actor team id 
+	FGenericTeamId OtherActorTeamid = NULL;
+	if (botTI != nullptr)
+	{
+		OtherActorTeamid = botTI->GetGenericTeamId();
+	}
+	else if (PlayerTI != nullptr)
+	{
+		OtherActorTeamid = PlayerTI->GetGenericTeamId();
+	}
+
+	// check hostile , 적인지아닌지확인 
+	FGenericTeamId ThisId = GetGenericTeamId();
+	if (OtherActorTeamid == 8)
+	{
+		return ETeamAttitude::Neutral;
+	}
+	else if (OtherActorTeamid == ThisId)
+	{
+		return ETeamAttitude::Friendly;
+	}
+	else
+	{
+		return ETeamAttitude::Hostile;
+	}
+
+
 }
 
 void ACAIController::Tick(float DeltaTime)

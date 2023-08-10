@@ -4,19 +4,34 @@
 #include "GameFramework/Character.h"
 #include "Components/CStateComponent.h"
 #include "Characters/ICharacter.h"
+#include "GenericTeamAgentInterface.h"
 #include "CPlayer.generated.h"
 
 // state에는 enum이 있다 , enum은 전방선언 이안된다 
 // enum문에 접근해야하니깐 헤더에 넣어줘야한다 
 // 상속구조 추가하는 방법 Check 
 UCLASS()
-class U05_ACTION_API ACPlayer : public ACharacter,public IICharacter
+class U05_ACTION_API ACPlayer : public ACharacter,public IICharacter , public IGenericTeamAgentInterface
 {
 	
 	GENERATED_BODY()
+
+
+
+
 private:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<class UCUserWidget_ActionList> ActionListClass;
+
+
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "AI")
+		int32 ID = 0;
+
+
+	//virtual FGenericTeamId GetGenericTeamId() const override { return TeamID; } //team id 세팅 
+	virtual FGenericTeamId GetGenericTeamId() const override { return TeamID; }
 
 private:
 
@@ -69,6 +84,8 @@ protected:
 
 	virtual void BeginPlay() override;
 
+
+	FGenericTeamId TeamID; //TeamID변수 
 private:
 	void OnMoveForward(float InAxis);
 	void OnMoveRight(float InAxis);
@@ -131,6 +148,7 @@ private:
 public:
 	virtual void ChangeColor(FLinearColor InColor) override;
 	
+
 
 private:
 	class UMaterialInstanceDynamic* BodyMaterial;

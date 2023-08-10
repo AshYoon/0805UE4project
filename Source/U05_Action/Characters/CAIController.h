@@ -36,11 +36,19 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
+
+
 	virtual void BeginPlay() override;
 
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnUnPossess() override;
 
+	FGenericTeamId TeamID; 
+
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& other) const override; 
+	// 객체를 볼때마다 GetTeamAttitudeTowards 함수를통해 해당 객체의 TeamID를 가져온다 
+public:
+	virtual FGenericTeamId GetGenericTeamId() const override { return TeamID; }
 private:
 	UFUNCTION()
 		void OnPerceptionUpdated(const TArray<AActor*>& UpdateActors);

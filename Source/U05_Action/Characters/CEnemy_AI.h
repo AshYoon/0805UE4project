@@ -12,8 +12,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 		class UBehaviorTree* BehaviorTree;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AI")
-		uint8 TeamID = 1; // ÆÀ ³ª´©´Â°Å 
+	//UPROPERTY(EditDefaultsOnly, Category = "AI")
+	//	uint8 TeamID = 1; // ÆÀ ³ª´©´Â°Å 
 
 	//private:
 	//	UPROPERTY(VisibleDefaultsOnly)
