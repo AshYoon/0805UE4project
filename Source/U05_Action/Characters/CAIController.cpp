@@ -85,7 +85,7 @@ ETeamAttitude::Type ACAIController::GetTeamAttitudeTowards(const AActor & other)
 	{
 		return ETeamAttitude::Neutral;
 	} // pawn 이 아닐경우 중립 
-
+	CLog::Print("dsd", 1.0f);
 
 	// 해당 액터가 genericTeamAgentinerface로 implement되었는지확인 ( 같은 interface로 묶였는지확인 ) 
 	// 만약 같은 interface ( IGenericTeamAgentInterface) 로 묶여있다면 캐스팅되고 아니면 neutral을 반환 
@@ -115,7 +115,9 @@ ETeamAttitude::Type ACAIController::GetTeamAttitudeTowards(const AActor & other)
 	}
 	else if (OtherActorTeamid == ThisId)
 	{
+		//Blackboard->SetValueAsClass("Friendly");
 		return ETeamAttitude::Friendly;
+		
 	}
 	else
 	{
@@ -146,14 +148,34 @@ void ACAIController::OnPerceptionUpdated(const TArray<AActor*>& UpdateActors)
 	TArray<AActor*> actors;
 	Perception->GetCurrentlyPerceivedActors(NULL, actors);
 
-	ACPlayer* player = NULL;
+	//TArray<AActor*> Threats;
+	//PerceptionComponent->GetHostileActors(Threats);
+	//if (Threats.Num() <= 0)
+	//{
+	//	return;
+	//}
+
+
+
+
+	APawn* Threat = NULL;
+
+
 	for (AActor* actor : actors)
 	{
-		player = Cast<ACPlayer>(actor);
+		Threat = Cast<APawn>(actor);
 
-		if (!!player)
+		if (!!Threat)
+		{
+
 			break;
+		}
+			
 	}
 
-	Blackboard->SetValueAsObject("Player", player);
+	Blackboard->SetValueAsObject("Player", Threat);
+
+
+
+
 }
