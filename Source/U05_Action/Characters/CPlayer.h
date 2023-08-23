@@ -87,12 +87,13 @@ protected:
 
 	FGenericTeamId TeamID; //TeamID변수 
 private:
+	//Axis
 	void OnMoveForward(float InAxis);
 	void OnMoveRight(float InAxis);
 	void OnHorizontalLook(float InAxis);
 	void OnVerticalLook(float InAxis);
 	void OnZoom(float InAxis);
-
+	
 
 private:
 	void OnAvoid();
@@ -110,6 +111,7 @@ private:
 		void OnStateTypeChanged(EStateType InPrevType, EStateType InNewType);
 	// add dynamic으로 
 private:
+	//Actions 
 	void Begin_Roll();
 	void Begin_Backstep();
 
@@ -135,7 +137,7 @@ private:
 	void OnDoAction();
 	void OnViewActionList();
 	void OffViewActionList();
-
+	void InterActive();
 
 
 	
