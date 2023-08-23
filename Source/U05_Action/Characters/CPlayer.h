@@ -27,7 +27,7 @@ private:
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "AI")
-		int32 ID = 0;
+		int32 ID = 255;
 
 
 	//virtual FGenericTeamId GetGenericTeamId() const override { return TeamID; } //team id ¼¼ÆÃ 
