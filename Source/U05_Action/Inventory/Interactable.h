@@ -29,6 +29,8 @@ public:
 
 	virtual void Interact_Implementation();
 
+
+public:
 	// all interactables will have static mesh 
 	UPROPERTY(EditAnywhere, Category = "Interactable Properties")
 		class UstaticMeshComponent* InteractableMesh;
