@@ -17,6 +17,15 @@ APickup::APickup()
 
 	InteractableMesh->SetSimulatePhysics(true);
 
+	ItemName = FString("Enter an item name here .. ");
+
+
+
+
+	InteractableHelpText = FString("Press E to pick item up.");
+
+	Value = 0;
+
 }
 
 void APickup::Interact_Implementation()
@@ -37,11 +46,27 @@ void APickup::Interact_Implementation()
 
 }
 
+void APickup::BeginPlay()
+{
+	// (ItemName) : Press E to pick up.
+	InteractableHelpText = FString::Printf(TEXT("%s : Press E to pick up. "), *ItemName);
+
+
+}
+
+void APickup::Use_Implementation()
+{
+
+	GLog->Log("Use() from base pickup class : YOU SHOULD NOT BE SEEING THIS");
+
+
+}
+
 void APickup::OnPickedUp()
 {
 
 	InteractableMesh->SetVisibility(false);
 	InteractableMesh->SetSimulatePhysics(false);
-
+	InteractableMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 }

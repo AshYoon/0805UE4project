@@ -19,10 +19,13 @@ public:
 
 		virtual void Interact_Implementation() override; 
 
+		virtual void BeginPlay() override;
 
 
-		//UFUNCTION(BlueprintNativeEvent)
-			//void Use();
+
+		UFUNCTION(BlueprintNativeEvent)
+		void Use();
+		virtual void Use_Implementation();
 
 		
 
