@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Inventory/Interactable.h"
+#include "Interactable.h"
 #include "Pickup.generated.h"
 
 /**
@@ -30,7 +30,7 @@ public:
 
 
 		UPROPERTY(EditAnywhere, Category = "Pickup Properties")
-			UTexture2D* PickupTexture; // pickup 아이콘 or 썸네일 
+			UTexture2D* PickupThumbnail; // pickup 아이콘 or 썸네일 
 
 
 		UPROPERTY(EditAnywhere, Category = "Pickup Properties")

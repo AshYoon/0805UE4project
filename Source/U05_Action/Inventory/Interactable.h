@@ -33,12 +33,15 @@ public:
 public:
 	// all interactables will have static mesh 
 	UPROPERTY(EditAnywhere, Category = "Interactable Properties")
-		class UstaticMeshComponent* InteractableMesh;
+		class UStaticMeshComponent* InteractableMesh;
 
 
 	// all interactables will have help text
 	UPROPERTY(EditAnywhere, Category = "Interactable Properties")
 		FString InteractableHelpText;
+
+
+
 
 	
 };

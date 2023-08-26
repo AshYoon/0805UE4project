@@ -3,9 +3,8 @@
 
 #include "Inventory/Pickup.h"
 #include "Characters/CPlayer.h"
-#include "Components/StaticMeshComponent.h"
 #include "Global.h"
-
+#include "Components/StaticMeshComponent.h"
 
 //#include "Inventory.h"
 
@@ -13,7 +12,9 @@
 APickup::APickup()
 {
 	//set up the mesh for the pickup , and set the item name , help text and item value 
-	InteractableMesh = CreateDefaultSubobject<UStateMeshComponent>(TEXT("PickMesh"));
+	InteractableMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickMesh"));
+
+
 	InteractableMesh->SetSimulatePhysics(true);
 
 }
@@ -38,6 +39,7 @@ void APickup::Interact_Implementation()
 
 void APickup::OnPickedUp()
 {
+
 	InteractableMesh->SetVisibility(false);
 	InteractableMesh->SetSimulatePhysics(false);
 

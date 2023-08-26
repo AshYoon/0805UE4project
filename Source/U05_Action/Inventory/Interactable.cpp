@@ -1,4 +1,5 @@
 #include "Inventory/Interactable.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 AInteractable::AInteractable()
