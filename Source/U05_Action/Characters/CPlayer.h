@@ -4,6 +4,8 @@
 #include "GameFramework/Character.h"
 #include "Components/CStateComponent.h"
 #include "Characters/ICharacter.h"
+#include "Inventory/Interactable.h"
+#include "Inventory/Pickup.h"
 #include "GenericTeamAgentInterface.h"
 #include "CPlayer.generated.h"
 
@@ -106,6 +108,8 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+
 private:
 	UFUNCTION()
 		void OnStateTypeChanged(EStateType InPrevType, EStateType InNewType);
@@ -120,7 +124,7 @@ public:
 	void End_Backstep();
 private:
 	UFUNCTION()
-		void OnOneHand();
+	void OnOneHand();
 	UFUNCTION()
 	void OnTwoHand();
 	UFUNCTION()
@@ -137,15 +141,33 @@ private:
 	void OnDoAction();
 	void OnViewActionList();
 	void OffViewActionList();
-	void InterActive();
-
-
-	
-
-
 	void OnTarget();
 	void OnTargetLeft();
 	void OnTargetRight();
+private:
+
+	//The Players Reach ( is the Reach ,help Thought reach form player 
+	float Reach;
+
+
+	// Toggle this inventory
+	void ToggleInventory();
+	
+	//Interacts with the current interactable provided there is one 
+	void Interact();
+
+	// checks for interactable items directly in front of the player using line trace ,called on per tick basis
+	void CheckForInteractables();
+
+
+	// the players help Text
+	FString HelpText;
+	//The interactable player is currently looking for
+	AInteractable* CurrentInteractable;
+	
+
+
+
 
 public:
 	virtual void ChangeColor(FLinearColor InColor) override;

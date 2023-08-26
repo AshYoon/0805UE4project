@@ -74,6 +74,8 @@ ACPlayer::ACPlayer()
 	CHelpers::GetClass<UCUserWidget_ActionList>(&ActionListClass, "WidgetBlueprint'/Game/WIdgets/WB_ActionList.WB_ActionList_C'");
 
 
+	//Reach for CheckForInteractables();
+	Reach = 250.0f;
 
 }
 
@@ -124,6 +126,10 @@ void ACPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
+	CheckForInteractables();
+
+
 }
 
 
@@ -142,8 +148,9 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("VerticalLook", this, &ACPlayer::OnVerticalLook);
 
 	/// my action key = F 
-	PlayerInputComponent->BindAction("InterActive", EInputEvent::IE_Pressed,this, &ACPlayer::InterActive);
-
+	PlayerInputComponent->BindAction("InterActive", EInputEvent::IE_Pressed,this, &ACPlayer::Interact);
+	// Toggle Inventory key = i
+	PlayerInputComponent->BindAction("ToggleInventory", EInputEvent::IE_Pressed, this, &ACPlayer::ToggleInventory);
 
 	PlayerInputComponent->BindAction("Avoid", EInputEvent::IE_Pressed, this, &ACPlayer::OnAvoid);
 	PlayerInputComponent->BindAction("Fist", EInputEvent::IE_Pressed, this, &ACPlayer::OnFist);
@@ -363,10 +370,7 @@ void ACPlayer::OffAim()
 }
 
 
-void ACPlayer::InterActive()
-{
 
-}
 
 
 void ACPlayer::OnViewActionList()
@@ -392,7 +396,60 @@ void ACPlayer::OffViewActionList()
 }
 
 
+void ACPlayer::ToggleInventory()
+{
+	//Code to inventory
+	
 
+
+}
+
+void ACPlayer::Interact()
+{
+	// if we find interactable do interactable implementation
+	if (CurrentInteractable != nullptr)
+	{
+		CurrentInteractable->Interact_Implementation();
+	}
+
+
+
+}
+
+
+void ACPlayer::CheckForInteractables()
+{
+	// TO linetrace , get the start and end traces
+	FVector StartTrace = Camera->GetComponentLocation();
+
+	FVector EndTrace = (Camera->GetForwardVector() * Reach) + StartTrace;
+
+	//Declare a hit result to stroe the raycast hit in
+	FHitResult HitResult;
+
+	// Initialize the query params - ignore the actor , for example my self
+	// Ignore гр Actor 
+	FCollisionQueryParams CQP;
+	CQP.AddIgnoredActor(this);
+
+	//Cast the line trace ,, ECCWorldDynamic ? 
+	GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_WorldDynamic, CQP);
+
+	AInteractable* PotentialInteractable = Cast<AInteractable>(HitResult.GetActor()); //cast to interactable actor
+
+	if (PotentialInteractable == NULL)
+	{
+		HelpText = FString("");
+		CurrentInteractable = nullptr;
+		return;
+	}
+	else
+	{
+		CurrentInteractable = PotentialInteractable;
+		HelpText = PotentialInteractable->InteractableHelpText;
+	}
+
+}
 
 void ACPlayer::OnTarget()
 {
