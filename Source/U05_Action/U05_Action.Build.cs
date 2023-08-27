@@ -9,7 +9,11 @@ public class U05_Action : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] {
-            "Core", "CoreUObject", "Engine", "InputCore", "GameplayTasks"
+            "Core", "CoreUObject", "Engine", "InputCore", "GameplayTasks","UMG"
+        });
+
+        PrivateDependencyModuleNames.AddRange(new string[] {
+            "Slate","SlateCore"
         });
 
         PublicIncludePaths.Add(ModuleDirectory);
