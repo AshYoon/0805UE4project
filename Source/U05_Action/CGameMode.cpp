@@ -18,11 +18,10 @@ ACGameMode::ACGameMode()
 	//C 기반 블프니깐 _C를 붙여주는거 잊지말자 
 	//CHelpers::GetClass<AHUD>(&HUDClass, "Blueprint'/Game/BP_CHUD.BP_CHUD_C'");
 
-		// use our custom hud 
+	// use our custom hud 
+	// use default hud of basic FPS template  in youtube 
 	HUDClass = ACHUD::StaticClass();
 
-
-	//HUDClass = AInventoryHUD::StaticClass();
 	//Set Default HUDState to be ingame state
 	HUDState = EHUDState::HS_Ingame;
 
