@@ -512,7 +512,7 @@ UTexture2D * ACPlayer::GetThumbnailAtInventorySolt(int32 Slot)
 
 }
 
-FString ACPlayer::GivenItemNameAtInventorySlot(int32 Slot)
+FString ACPlayer::GiveItemNameAtInventorySlot(int32 Slot)
 {
 	if (Inventory[Slot] != NULL)
 	{
