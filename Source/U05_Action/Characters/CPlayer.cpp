@@ -21,6 +21,8 @@
 
 
 
+
+
 ACPlayer::ACPlayer()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -469,3 +471,66 @@ void ACPlayer::OnTargetRight()
 	Target->ChangeTargetRight();
 }
 
+
+
+// inventory stuff
+
+void ACPlayer::UpdateGold(int32 Amount)
+{
+	Gold = Gold + Amount;
+}
+
+bool ACPlayer::AddItemToInventory(APickup * Item)
+{
+	if (Item != NULL)
+	{
+		const int32 AvailableSlot = Inventory.Find(nullptr); // Find first slot with nullptr in it
+		if (AvailableSlot != INDEX_NONE)
+		{
+			Inventory[AvailableSlot] = Item;
+			return true;
+
+		}
+		else
+		{
+			// show error message if inventory has not AvailableSlot, 추후에 게임 ui 로 log change 
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("You can't carry any more items!"));
+			return false;
+		}
+	}
+	else return false;
+}
+
+UTexture2D * ACPlayer::GetThumbnailAtInventorySolt(int32 Slot)
+{
+	if (Inventory[Slot] != NULL)
+	{
+		return Inventory[Slot]->PickupThumbnail;
+	}
+	else return nullptr;
+
+
+}
+
+FString ACPlayer::GivenItemNameAtInventorySlot(int32 Slot)
+{
+	if (Inventory[Slot] != NULL)
+	{
+		return Inventory[Slot]->ItemName;
+	}
+	return FString("None");
+
+}
+
+void ACPlayer::UseItemAtInventorySlot(int32 Slot)
+{
+	if (Inventory[Slot] != NULL)
+	{
+		Inventory[Slot]->Use_Implementation();
+		Inventory[Slot] = NULL;  // delete item once use 
+	}
+
+
+
+
+}

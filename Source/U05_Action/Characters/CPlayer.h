@@ -76,6 +76,40 @@ private:
 public:
 	FORCEINLINE class UCUserWidget_ActionList* GetActionList() { return ActionList; }
 
+	// the players help Text
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HUD")
+	FString HelpText;
+
+	//The mount of gold the player has 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HUD")
+	int32 Gold;
+
+	//update the coins
+	// param amount this is the mount to update the coins by , and can be positive or negative
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory Functions")
+	void UpdateGold(int32 Amount);
+
+	//Adds an item to inventory
+	UFUNCTION(BlueprintPure, Category = "Inventory Functions")
+	bool AddItemToInventory(APickup* Item);
+
+	//Gets the thumbnail for a given inventroy slot 
+	UFUNCTION(BlueprintPure, Category = "Inventory Functions")
+	UTexture2D* GetThumbnailAtInventorySolt(int32 Slot);
+
+	//gets the items name for a given inventory slot
+	UFUNCTION(BlueprintPure, Category = "Inventory Functions")
+	FString GivenItemNameAtInventorySlot(int32 Slot);
+
+	//Uses the item at a given inventory slot
+	UFUNCTION(BlueprintCallable, Category = "Inventory Functions")
+	void UseItemAtInventorySlot(int32 Slot);
+
+
+
+	
+	
 
 
 public:
@@ -150,6 +184,7 @@ private:
 	float Reach;
 
 
+
 	// Toggle this inventory
 	void ToggleInventory();
 	
@@ -160,11 +195,13 @@ private:
 	void CheckForInteractables();
 
 
-	// the players help Text
-	FString HelpText;
+
 	//The interactable player is currently looking for
 	AInteractable* CurrentInteractable;
 	
+	// the players inventory , represented as a Tarray of pickup objects
+	UPROPERTY(EditAnywhere)
+		TArray<APickup*> Inventory;
 
 
 
