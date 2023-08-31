@@ -122,6 +122,13 @@ void ACPlayer::BeginPlay()
 
 
 
+
+	//Inventory 
+	Inventory.SetNum(4);
+	CurrentInteractable = nullptr;
+
+
+
 }
 
 void ACPlayer::Tick(float DeltaTime)
@@ -408,6 +415,8 @@ void ACPlayer::ToggleInventory()
 
 void ACPlayer::Interact()
 {
+
+	CLog::Print("Interact", -1, 10.0f);
 	// if we find interactable do interactable implementation
 	if (CurrentInteractable != nullptr)
 	{
