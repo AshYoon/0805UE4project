@@ -1,5 +1,6 @@
 #include "CPlayer.h"
 #include "Global.h"
+#include "CGameMode.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h" // 카메라 쉐이크 쓸때 필요 
@@ -36,7 +37,7 @@ ACPlayer::ACPlayer()
 	CHelpers::CreateActorComponent<UCOptionComponent>(this, &Option, "Option");
 	CHelpers::CreateActorComponent<UCStatusComponent>(this, &Status, "Status");
 	CHelpers::CreateActorComponent<UCStateComponent>(this, &State, "State");
-	CHelpers::CreateActorComponent<UCTargetComponent>(this, &Target, "Target");
+	CHelpers::CreateActorComponent<UCTargetComponent>(this, &Target, "Target" );
 
 	CHelpers::CreateActorComponent<UCMontagesComponent>(this, &Montages, "Montages");
 	CHelpers::CreateActorComponent<UCFeetComponent>(this, &Feet, "Feet");
@@ -77,7 +78,8 @@ ACPlayer::ACPlayer()
 
 
 	//Reach for CheckForInteractables();
-	Reach = 250.0f;
+	//Reach 거리에 따라서 pickup이 가능 
+	Reach = 500.0f;
 
 }
 
@@ -408,6 +410,16 @@ void ACPlayer::OffViewActionList()
 void ACPlayer::ToggleInventory()
 {
 	//Code to inventory
+	//check players hud state , if inventroy is opne then close,otherwise open inventory
+	ACGameMode* GameMode = Cast<ACGameMode>(GetWorld()->GetAuthGameMode());
+	if (GameMode->GetHUDState() == GameMode->HS_Ingame)
+	{
+		GameMode->ChangeHUDState(GameMode->HS_Inventory);
+	}
+	else
+	{
+		GameMode->ChangeHUDState(GameMode->HS_Ingame);
+	}
 	
 
 
@@ -430,6 +442,10 @@ void ACPlayer::Interact()
 
 void ACPlayer::CheckForInteractables()
 {
+	//
+	
+
+
 	// TO linetrace , get the start and end traces
 	FVector StartTrace = Camera->GetComponentLocation();
 
@@ -450,12 +466,14 @@ void ACPlayer::CheckForInteractables()
 
 	if (PotentialInteractable == NULL)
 	{
+		CLog::Print("Nocheckforinteractables", -1, 10.0f);
 		HelpText = FString("");
 		CurrentInteractable = nullptr;
 		return;
 	}
 	else
 	{
+		CLog::Print("checkforinteractables", -1, 10.0f);
 		CurrentInteractable = PotentialInteractable;
 		HelpText = PotentialInteractable->InteractableHelpText;
 	}
