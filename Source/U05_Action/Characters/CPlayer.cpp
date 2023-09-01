@@ -412,6 +412,7 @@ void ACPlayer::ToggleInventory()
 	//Code to inventory
 	//check players hud state , if inventroy is opne then close,otherwise open inventory
 	ACGameMode* GameMode = Cast<ACGameMode>(GetWorld()->GetAuthGameMode());
+	//gamemode enum hudstate change ui 
 	if (GameMode->GetHUDState() == GameMode->HS_Ingame)
 	{
 		GameMode->ChangeHUDState(GameMode->HS_Inventory);
@@ -539,7 +540,7 @@ UTexture2D * ACPlayer::GetThumbnailAtInventorySolt(int32 Slot)
 
 }
 
-FString ACPlayer::GiveItemNameAtInventorySlot(int32 Slot)
+FString ACPlayer::GetItemNameAtInventorySlot(int32 Slot)
 {
 	if (Inventory[Slot] != NULL)
 	{
