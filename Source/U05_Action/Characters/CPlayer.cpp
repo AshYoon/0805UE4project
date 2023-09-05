@@ -467,14 +467,14 @@ void ACPlayer::CheckForInteractables()
 
 	if (PotentialInteractable == NULL)
 	{
-		CLog::Print("Nocheckforinteractables", -1, 10.0f);
+		//CLog::Print("Nocheckforinteractables", -1, 10.0f);
 		HelpText = FString("");
 		CurrentInteractable = nullptr;
 		return;
 	}
 	else
 	{
-		CLog::Print("checkforinteractables", -1, 10.0f);
+		//CLog::Print("checkforinteractables", -1, 10.0f);
 		CurrentInteractable = PotentialInteractable;
 		HelpText = PotentialInteractable->InteractableHelpText;
 	}
