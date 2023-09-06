@@ -20,5 +20,10 @@ public:
 
 	virtual void Interact_Implementation() override;
 
+private:
+
+	UPROPERTY(EditAnywhere)
+	int32 AmountOfCoins;
+
 
 };
