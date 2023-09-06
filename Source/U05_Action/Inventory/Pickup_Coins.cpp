@@ -8,6 +8,13 @@
 APickup_Coins::APickup_Coins()
 {
 
+
+
+
+	ItemType = EItemType::Coin;
+
+
+
 }
 
 void APickup_Coins::Interact_Implementation()

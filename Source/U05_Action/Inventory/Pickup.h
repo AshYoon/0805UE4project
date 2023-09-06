@@ -9,6 +9,11 @@
 /**
  * 
  */
+
+//Item Type
+
+
+
 UCLASS()
 class U05_ACTION_API APickup : public AInteractable
 {
@@ -28,6 +33,16 @@ public:
 		virtual void Use_Implementation();
 
 		
+
+		enum EItemType : uint8
+		{
+			Equipment,
+			Coin,
+			UsableItem,
+			ETC,
+		};
+
+
 
 
 
@@ -50,6 +65,14 @@ public:
 
 		// this is clled when the item is picked up and needs to be cleaned up from the level 
 		void OnPickedUp();
+
+
+
+		uint8 GetItemType() { return ItemType; };
+
+protected:
+
+	uint8 ItemType; // set ItemType
 
 	
 };

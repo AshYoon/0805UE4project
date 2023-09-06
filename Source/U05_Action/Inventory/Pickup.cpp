@@ -26,6 +26,12 @@ APickup::APickup()
 
 	Value = 0;
 
+	//
+	ItemType = EItemType::ETC;
+
+
+	
+
 }
 
 void APickup::Interact_Implementation()

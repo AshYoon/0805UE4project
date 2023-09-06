@@ -24,6 +24,8 @@ ACGameMode::ACGameMode()
 
 	//Set Default HUDState to be ingame state
 	HUDState = EHUDState::HS_Ingame;
+	
+
 
 }
 
