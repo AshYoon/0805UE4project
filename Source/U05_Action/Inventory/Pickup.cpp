@@ -57,6 +57,7 @@ void APickup::Interact_Implementation()
 
 void APickup::BeginPlay()
 {
+	Super::BeginPlay();
 	// (ItemName) : Press E to pick up.
 	InteractableHelpText = FString::Printf(TEXT("%s : Press E to pick up. "), *ItemName);
 

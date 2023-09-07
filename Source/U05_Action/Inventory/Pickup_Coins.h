@@ -18,11 +18,13 @@ class U05_ACTION_API APickup_Coins : public APickup
 public:
 	APickup_Coins();
 
+	virtual void BeginPlay() override;
+
 	virtual void Interact_Implementation() override;
 
-private:
+public:
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,Category = "Coin Properties")
 	int32 AmountOfCoins;
 
 

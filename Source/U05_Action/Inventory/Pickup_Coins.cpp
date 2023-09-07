@@ -17,6 +17,13 @@ APickup_Coins::APickup_Coins()
 
 }
 
+void APickup_Coins::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+
+
 void APickup_Coins::Interact_Implementation()
 {
 
