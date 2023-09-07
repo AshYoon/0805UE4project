@@ -292,7 +292,7 @@ void ACPlayer::Begin_Backstep()
 
 void ACPlayer::End_Roll()
 {
-	bUseControllerRotationYaw = true;
+	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = false;
 
 	State->SetIdleMode();
