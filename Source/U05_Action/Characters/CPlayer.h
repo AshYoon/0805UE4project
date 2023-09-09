@@ -141,7 +141,10 @@ public:
 
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	
+	// ForTimer , Delay 
+	FTimerHandle GravityTimerHandle;
+	float GravityTime = 3.f;
 
 
 private:

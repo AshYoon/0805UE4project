@@ -13,12 +13,13 @@ APickup::APickup()
 {
 	//set up the mesh for the pickup , and set the item name , help text and item value 
 	InteractableMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickMesh"));
-	FName CollisionChannel = "BlockAllDynamic";
-	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxforInteract"));
-	CollisionBox->SetBoxExtent(FVector(32.f, 32.f, 32.f));
-	CollisionBox->SetGenerateOverlapEvents(false);
-	CollisionBox->SetCollisionProfileName(CollisionChannel, false);
-	//RootComponent = InteractableMesh;
+
+
+
+
+	
+
+
 	
 
 
@@ -65,9 +66,9 @@ void APickup::Interact_Implementation()
 void APickup::BeginPlay()
 {
 	Super::BeginPlay();
-	// (ItemName) : Press E to pick up.
+	// (ItemName) : Press F to pick up.
 	InteractableHelpText = FString::Printf(TEXT("%s "), *ItemName);
-	InteractableMesh->SetSimulatePhysics(false);
+	//InteractableMesh->SetSimulatePhysics(true);
 
 }
 
@@ -85,5 +86,6 @@ void APickup::OnPickedUp()
 	InteractableMesh->SetVisibility(false);
 	InteractableMesh->SetSimulatePhysics(false);
 	InteractableMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
 
 }

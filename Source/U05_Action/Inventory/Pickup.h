@@ -70,8 +70,7 @@ public:
 
 		uint8 GetItemType() { return ItemType; };
 
-		UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-			class UBoxComponent* CollisionBox;
+
 
 
 protected:

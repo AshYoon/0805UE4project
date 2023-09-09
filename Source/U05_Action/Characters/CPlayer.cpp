@@ -478,6 +478,17 @@ void ACPlayer::CheckForInteractables()
 		//CLog::Print("checkforinteractables", -1, 10.0f);
 		CurrentInteractable = PotentialInteractable;
 		HelpText = PotentialInteractable->InteractableHelpText;
+
+		//after 3.f second HelpText = " " 
+		GetWorld()->GetTimerManager().SetTimer(GravityTimerHandle, FTimerDelegate::CreateLambda([&]()
+		{
+
+			HelpText = FString("");
+
+			GetWorld()->GetTimerManager().ClearTimer(GravityTimerHandle);
+		}), GravityTime, false);
+
+
 	}
 
 }
