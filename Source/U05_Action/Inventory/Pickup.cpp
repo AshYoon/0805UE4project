@@ -5,7 +5,7 @@
 #include "Characters/CPlayer.h"
 #include "Global.h"
 #include "Components/StaticMeshComponent.h"
-
+#include "Components/BoxComponent.h"
 //#include "Inventory.h"
 
 
@@ -13,16 +13,23 @@ APickup::APickup()
 {
 	//set up the mesh for the pickup , and set the item name , help text and item value 
 	InteractableMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickMesh"));
+	FName CollisionChannel = "BlockAllDynamic";
+	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxforInteract"));
+	CollisionBox->SetBoxExtent(FVector(32.f, 32.f, 32.f));
+	CollisionBox->SetGenerateOverlapEvents(false);
+	CollisionBox->SetCollisionProfileName(CollisionChannel, false);
+	//RootComponent = InteractableMesh;
+	
 
 
-	InteractableMesh->SetSimulatePhysics(true);
+	InteractableMesh->SetSimulatePhysics(false);
 
 	ItemName = FString("Enter an item name here .. ");
 
 
 
 
-	InteractableHelpText = FString("Press E to pick item up.");
+	InteractableHelpText = FString("Press F to pick item up.");
 
 	Value = 0;
 
@@ -59,8 +66,8 @@ void APickup::BeginPlay()
 {
 	Super::BeginPlay();
 	// (ItemName) : Press E to pick up.
-	InteractableHelpText = FString::Printf(TEXT("%s : Press E to pick up. "), *ItemName);
-
+	InteractableHelpText = FString::Printf(TEXT("%s "), *ItemName);
+	InteractableMesh->SetSimulatePhysics(false);
 
 }
 

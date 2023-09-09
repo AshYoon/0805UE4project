@@ -16,7 +16,7 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Widgets/CUserWidget_ActionList.h"
 #include "Components/CFeetComponent.h"
-
+#include "DrawDebugHelpers.h"
 
 // 루트폴더 잡혀있으니깐 경로 모두 안적어도된다 
 
@@ -138,7 +138,7 @@ void ACPlayer::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
-	CheckForInteractables();
+	//CheckForInteractables();
 
 
 }
@@ -428,7 +428,7 @@ void ACPlayer::ToggleInventory()
 
 void ACPlayer::Interact()
 {
-
+	CheckForInteractables();
 	CLog::Print("Interact", -1, 10.0f);
 	// if we find interactable do interactable implementation
 	if (CurrentInteractable != nullptr)
@@ -462,6 +462,7 @@ void ACPlayer::CheckForInteractables()
 
 	//Cast the line trace ,, ECCWorldDynamic ? 
 	GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_WorldDynamic, CQP);
+	DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 5.f);
 
 	AInteractable* PotentialInteractable = Cast<AInteractable>(HitResult.GetActor()); //cast to interactable actor
 
