@@ -459,9 +459,10 @@ void ACPlayer::CheckForInteractables()
 	// Ignore гр Actor 
 	FCollisionQueryParams CQP;
 	CQP.AddIgnoredActor(this);
-
+	
 	//Cast the line trace ,, ECCWorldDynamic ? 
 	GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_WorldDynamic, CQP);
+	//GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Interactable, CQP);
 	DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Red, false, 5.f);
 
 	AInteractable* PotentialInteractable = Cast<AInteractable>(HitResult.GetActor()); //cast to interactable actor

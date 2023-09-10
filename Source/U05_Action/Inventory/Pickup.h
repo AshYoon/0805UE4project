@@ -36,7 +36,7 @@ public:
 
 		enum EItemType : uint8
 		{
-			Equipment,
+			EquipmentItem,
 			Coin,
 			UsableItem,
 			ETC,
@@ -70,6 +70,14 @@ public:
 
 		uint8 GetItemType() { return ItemType; };
 
+
+
+		UPROPERTY(BlueprintReadWrite, VisibleAnywhere,Category = "Pickup Properties")
+			class UBoxComponent* CollisionBox;
+
+
+		UPROPERTY(BlueprintReadWrite, EditAnywhere)
+			class UParticleSystemComponent* ItemParticle;
 
 
 
