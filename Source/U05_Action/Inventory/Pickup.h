@@ -82,6 +82,11 @@ public:
 			class UParticleSystemComponent* ItemParticle;
 
 
+private:
+
+		UPROPERTY(EditAnywhere, Category = "Pickup Properties")
+			class UCInventoryComponent* PickUpInventroy;
+
 
 protected:
 

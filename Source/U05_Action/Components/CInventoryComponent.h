@@ -55,8 +55,11 @@ struct F_Stat
 	GENERATED_BODY()
 
 
-
+	UPROPERTY(EditAnywhere)
 	E_StatType Type; // check StatType 
+
+
+	UPROPERTY(EditAnywhere)
 	uint8 ModifierValue; // increase player stat
 };
 
@@ -67,16 +70,29 @@ struct F_Item
 {
 	GENERATED_BODY()
 
-
+	UPROPERTY(EditAnywhere)
 	FName Name;
+
+	UPROPERTY(EditAnywhere)
 	FString Description;
+
+	UPROPERTY(EditAnywhere)
+	E_ItemType Type;
+
+	UPROPERTY(EditAnywhere)
 	TArray<F_Stat> ItemStat;
+
+
 	bool IsStackable;
 	bool IsDroppable;
 	bool IsConsumable;
 
 	UPROPERTY(EditAnywhere, Category = "Item Properties")
 		UTexture2D* ItemThumbnail; // Item ThumNail
+
+
+	UPROPERTY(EditAnywhere, Category = "Item Properties")
+		class UStaticMeshComponent* ItemMesh;
 
 
 	
@@ -106,17 +122,26 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(EditAnywhere)
+	TArray<F_Item> Inventory;
 
-	TArray<F_Item> Inventroy;
 
-	TArray<F_Item> GetInventroy() { return Inventroy; }
-	uint8 FindIndexByType();
 
-	void AddItem();
-	void RemoveItem();
+	TArray<F_Item> GetInventory() { return Inventory; }
+
+
+    // it could be found more than 1 Item 
+	TArray<uint8> FindIndexByType(E_ItemType Type);
+
+	void AddItem(F_Item item);
+
+	void RemoveItem(uint8 index);
+
 	void ClearInventory();
-	void DropItem();
-	void UseItem();
+
+	void DropItem(uint8 index);
+
+	void UseItem(uint8 index);
 
 
 

@@ -23,6 +23,17 @@ void UCEquipmentComponent::BeginPlay()
 }
 
 
+
+
+void UCEquipmentComponent::SetEquipment(F_Item * item)
+{
+
+
+
+
+
+}
+
 // Called every frame
 void UCEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {

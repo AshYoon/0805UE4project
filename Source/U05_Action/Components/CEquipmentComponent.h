@@ -14,8 +14,13 @@ struct F_EquipmentSlot
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere)
 	F_Item Items;
+
+
 	uint8 ActiveItemIndex;
+
+
 	bool isHidden;
 
 
@@ -54,14 +59,20 @@ public:
 	// Sets default values for this component's properties
 	UCEquipmentComponent();
 
-	void SetInventory();
+	void SetEquipment(F_Item* item);
+	void RemoveEquipment(E_ItemType Type);
+
+
 
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	TArray<F_EquipmentSlot> Equipment;
+	TArray<F_EquipmentSlot*> Equipment;
+
+
+
 
 protected:
 	// Called when the game starts

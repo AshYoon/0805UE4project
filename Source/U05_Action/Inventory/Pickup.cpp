@@ -15,6 +15,10 @@ APickup::APickup()
 	//set up the mesh for the pickup , and set the item name , help text and item value 
 	//InteractableMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickMesh"));
 
+	CHelpers::CreateActorComponent<UCInventoryComponent>(this, &PickUpInventroy, "Inventory");
+
+
+
 	// Only use Collsion Box and Particle System 
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("PickUpBox"));
 	CollisionBox->SetBoxExtent(FVector(32.f, 32.f, 32.f));
