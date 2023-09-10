@@ -34,6 +34,10 @@ void UCEquipmentComponent::SetEquipment(F_Item * item)
 
 }
 
+void UCEquipmentComponent::RemoveEquipment(E_ItemType Type)
+{
+}
+
 // Called every frame
 void UCEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {

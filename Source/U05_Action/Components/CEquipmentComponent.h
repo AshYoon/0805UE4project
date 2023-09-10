@@ -69,7 +69,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	TArray<F_EquipmentSlot*> Equipment;
+	TArray<F_EquipmentSlot> Equipment;
 
 
 
