@@ -4,7 +4,45 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "CInventoryComponent.h"
 #include "CEquipmentComponent.generated.h"
+
+
+
+USTRUCT(BlueprintType)
+struct F_EquipmentSlot
+{
+	GENERATED_BODY()
+
+	F_Item Items;
+	uint8 ActiveItemIndex;
+	bool isHidden;
+
+
+};
+
+UENUM(BlueprintType)
+enum class E_CombatType : uint8
+{
+	Unarmed,
+	Melee,
+	Range,
+	Magic,
+
+};
+
+UENUM(BlueprintType)
+enum class E_WeaponType : uint8
+{
+	None,
+	Sword,
+	Axe,
+	Bow,
+	Magic,
+
+};
+
+
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -16,13 +54,19 @@ public:
 	// Sets default values for this component's properties
 	UCEquipmentComponent();
 
+	void SetInventory();
+
+public:
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+private:
+	TArray<F_EquipmentSlot> Equipment;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 		
 };

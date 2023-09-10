@@ -3,6 +3,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Components/CStateComponent.h"
+#include "Components/CInventoryComponent.h"
+#include "Components/CEquipmentComponent.h"
 #include "Characters/ICharacter.h"
 #include "Inventory/Interactable.h"
 #include "Inventory/Pickup.h"
@@ -72,6 +74,14 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly)
 		class UCStateComponent* State;
+
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+		class UCInventoryComponent* CInventory;
+
+	UPROPERTY(EditAnywhere, Category = "Equipment")
+		class UCEquipmentComponent* Equipment;
+
 
 public:
 	FORCEINLINE class UCUserWidget_ActionList* GetActionList() { return ActionList; }

@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "Components/CInventoryComponent.h"
 #include "Pickup.generated.h"
+
 
 /**
  * 
