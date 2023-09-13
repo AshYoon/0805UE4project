@@ -86,9 +86,16 @@ struct FItemTextData
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere)
 	FText Name;
+
+	UPROPERTY(EditAnywhere)
 	FText Description;
+
+	UPROPERTY(EditAnywhere)
 	FText InteractionText;
+
+	UPROPERTY(EditAnywhere)
 	FText UsageText; // drink or use or sell , drop 
 };
 
@@ -100,8 +107,13 @@ struct FItemNumericData
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere)
 	float Weight;
+
+	UPROPERTY(EditAnywhere)
 	int32 MaxStackSize;
+
+	UPROPERTY(EditAnywhere)
 	bool bIsStackable;
 
 };
@@ -130,6 +142,8 @@ struct FItemData : public FTableRowBase
 
 
 
+	UPROPERTY(EditAnywhere, Category = "Item Data")
+	FName ID;
 
 	UPROPERTY(EditAnywhere , Category = "Item Data")
 	EItemType ItemType;

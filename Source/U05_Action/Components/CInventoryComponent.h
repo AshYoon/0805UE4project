@@ -28,25 +28,7 @@ enum class E_ItemType : uint8
 };
 
 
-UENUM(BlueprintType)
-enum class E_StatType : uint8
-{
-	None,
-	Health,
-	Stamina,
-	Mana,
-	Damage,
-	Armor,
-	CritChance,
-	CritMultiplier,
-	AttackSpeed,
-	Block,
-	MeleeAttackStaminaCost,
-	MagicDamage,
-	CastingSpeed,
 
-
-};
 
 
 USTRUCT(BlueprintType)
@@ -55,8 +37,6 @@ struct F_Stat
 	GENERATED_BODY()
 
 
-	UPROPERTY(EditAnywhere)
-	E_StatType Type; // check StatType 
 
 
 	UPROPERTY(EditAnywhere)
