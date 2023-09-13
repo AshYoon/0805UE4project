@@ -82,9 +82,13 @@ struct F_Item
 	UPROPERTY(EditAnywhere)
 	TArray<F_Stat> ItemStat;
 
-
+	UPROPERTY(EditAnywhere)
 	bool IsStackable;
+
+	UPROPERTY(EditAnywhere)
 	bool IsDroppable;
+
+	UPROPERTY(EditAnywhere)
 	bool IsConsumable;
 
 	UPROPERTY(EditAnywhere, Category = "Item Properties")
