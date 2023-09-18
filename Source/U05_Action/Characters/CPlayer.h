@@ -9,7 +9,33 @@
 #include "Inventory/Interactable.h"
 #include "Inventory/Pickup.h"
 #include "GenericTeamAgentInterface.h"
+#include "Interfaces/InteractionInterface.h"
 #include "CPlayer.generated.h"
+
+/*
+InteractionDataStruct - info of Interaction 
+*/
+USTRUCT()
+struct FInteractionData
+{
+	GENERATED_BODY()
+
+	FInteractionData() : CurrentInteractable(nullptr), LastInteractionCheckTime(0.0f)
+	{
+
+	};
+
+	// contain current Interactable
+	UPROPERTY()
+	AActor* CurrentInteractable;
+
+
+	// how often you want to check interactable , not need to shoot linetrace every single time 
+	UPROPERTY()
+	float LastInteractionCheckTime;
+
+};
+
 
 // state에는 enum이 있다 , enum은 전방선언 이안된다 
 // enum문에 접근해야하니깐 헤더에 넣어줘야한다 
@@ -20,6 +46,10 @@ class U05_ACTION_API ACPlayer : public ACharacter,public IICharacter , public IG
 	
 	GENERATED_BODY()
 
+
+		//=========================================================================
+		//                       PROPERTIES & VARIABLES
+		//=========================================================================
 
 
 
@@ -116,10 +146,80 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory Functions")
 	void UseItemAtInventorySlot(int32 Slot);
 
+private:
+
+		//The Players Reach ( is the Reach ,help Thought reach form player 
+		float Reach;
+
+
+
+		// Toggle this inventory
+		void ToggleInventory();
+
+		//Interacts with the current interactable provided there is one 
+	//	void Interact();
+
+		// checks for interactable items directly in front of the player using line trace ,called on per tick basis
+		void CheckForInteractables();
+
+
+
+		//The interactable player is currently looking for
+		AInteractable* CurrentInteractable;
+
+		// the players inventory , represented as a Tarray of pickup objects
+		UPROPERTY(EditAnywhere)
+			TArray<APickup*> Inventory;
+
+private:
+	class UMaterialInstanceDynamic* BodyMaterial;
+	class UMaterialInstanceDynamic* LogoMaterial;
+	// 색은 게임이 시작됬을때 바꿔주면된다 , Player가어떤 상태인지 알려줄수있는 
+	// TypeColor를 해볼꺼다 
+private:
+	class UCUserWidget_ActionList* ActionList;
+
+
+protected:
+	// what we hit with linetrace
+	UPROPERTY(VisibleAnywhere, Category = "Character | Interaction")
+	TScriptInterface<IInteractionInterface> TargetInteractable;
+
+	float InteractionCheckFrequency;
+	
+	
+	float InteractionCheckDistance;
+
+	FTimerHandle TimerHandle_Interaction;
+
+	FInteractionData InteractionData;
 
 
 	
-	
+//=========================================================================
+//                       FUNCTIONS 
+//=========================================================================
+
+protected:
+	/*Interaction Functions */
+
+
+		void PerformInteractionCheck();
+
+
+		void FoundInteractable(AActor* NewInteractable);
+
+
+		void NoInteractableFound();
+
+
+		void BeginInteract();
+
+
+		void EndInteract();
+
+
+		void Interact(); // Action of Interacting 
 
 
 public:
@@ -133,7 +233,7 @@ protected:
 
 	FGenericTeamId TeamID; //TeamID변수 
 private:
-	//Axis
+	/* Character Movement functions */
 	void OnMoveForward(float InAxis);
 	void OnMoveRight(float InAxis);
 	void OnHorizontalLook(float InAxis);
@@ -158,6 +258,9 @@ public:
 
 
 private:
+	/* Character Actions Function */
+
+
 	UFUNCTION()
 		void OnStateTypeChanged(EStateType InPrevType, EStateType InNewType);
 	// add dynamic으로 
@@ -191,31 +294,6 @@ private:
 	void OnTarget();
 	void OnTargetLeft();
 	void OnTargetRight();
-private:
-
-	//The Players Reach ( is the Reach ,help Thought reach form player 
-	float Reach;
-
-
-
-	// Toggle this inventory
-	void ToggleInventory();
-	
-	//Interacts with the current interactable provided there is one 
-	void Interact();
-
-	// checks for interactable items directly in front of the player using line trace ,called on per tick basis
-	void CheckForInteractables();
-
-
-
-	//The interactable player is currently looking for
-	AInteractable* CurrentInteractable;
-	
-	// the players inventory , represented as a Tarray of pickup objects
-	UPROPERTY(EditAnywhere)
-		TArray<APickup*> Inventory;
-
 
 
 
@@ -224,13 +302,7 @@ public:
 	
 
 
-private:
-	class UMaterialInstanceDynamic* BodyMaterial;
-	class UMaterialInstanceDynamic* LogoMaterial;
-	// 색은 게임이 시작됬을때 바꿔주면된다 , Player가어떤 상태인지 알려줄수있는 
-	// TypeColor를 해볼꺼다 
-private:
-		class UCUserWidget_ActionList* ActionList;
+
 
 
 };

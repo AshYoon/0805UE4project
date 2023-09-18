@@ -138,10 +138,50 @@ void ACPlayer::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
+
+
+
 	//CheckForInteractables();
 
 
 }
+
+/*Create LineTrace , CheckFortheInterface,SetTarget Interactable */
+void ACPlayer::PerformInteractionCheck()
+{
+	
+}
+
+void ACPlayer::FoundInteractable(AActor * NewInteractable)
+{
+}
+
+void ACPlayer::NoInteractableFound()
+{
+}
+
+void ACPlayer::BeginInteract()
+{
+}
+
+void ACPlayer::EndInteract()
+{
+}
+
+void ACPlayer::Interact()
+{
+	CheckForInteractables();
+	CLog::Print("Interact", -1, 10.0f);
+	// if we find interactable do interactable implementation
+	if (CurrentInteractable != nullptr)
+	{
+		CurrentInteractable->Interact_Implementation();
+	}
+
+
+
+}
+
 
 
 void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -426,19 +466,7 @@ void ACPlayer::ToggleInventory()
 
 }
 
-void ACPlayer::Interact()
-{
-	CheckForInteractables();
-	CLog::Print("Interact", -1, 10.0f);
-	// if we find interactable do interactable implementation
-	if (CurrentInteractable != nullptr)
-	{
-		CurrentInteractable->Interact_Implementation();
-	}
 
-
-
-}
 
 
 void ACPlayer::CheckForInteractables()
