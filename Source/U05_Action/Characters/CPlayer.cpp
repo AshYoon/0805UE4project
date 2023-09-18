@@ -1,10 +1,9 @@
+
+
+// Game
 #include "CPlayer.h"
-#include "Global.h"
 #include "CGameMode.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Camera/CameraComponent.h" // 카메라 쉐이크 쓸때 필요 
-#include "Animation/AnimInstance.h"
+#include "Global.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/CActionComponent.h"
@@ -12,11 +11,18 @@
 #include "Components/CStatusComponent.h"
 #include "Components/CTargetComponent.h"
 #include "Components/CMontagesComponent.h"
-#include "Materials/MaterialInstanceConstant.h"
-#include "Materials/MaterialInstanceDynamic.h"
 #include "Widgets/CUserWidget_ActionList.h"
 #include "Components/CFeetComponent.h"
+
+// Engine 
+#include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Materials/MaterialInstanceConstant.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "DrawDebugHelpers.h"
+#include "Camera/CameraComponent.h" // 카메라 쉐이크 쓸때 필요 
+#include "Animation/AnimInstance.h"
+
 
 // 루트폴더 잡혀있으니깐 경로 모두 안적어도된다 
 
@@ -79,8 +85,13 @@ ACPlayer::ACPlayer()
 
 	//Reach for CheckForInteractables();
 	//Reach 거리에 따라서 pickup이 가능 
-	Reach = 500.0f;
+	//Reach = 500.0f;
 
+
+	// 16ms is one fream , don't need to setting lower than that , won't have any point 
+	//100ms is fine 
+	InteractionCheckFrequency = 0.1;
+	InteractionCheckDistance = 225.0f;
 }
 
 
@@ -137,8 +148,11 @@ void ACPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
-
+	// 
+	if (GetWorld()->TimeSince(InteractionData.LastInteractionCheckTime) > InteractionCheckFrequency)
+	{
+		PerformInteractionCheck();
+	}
 
 
 	//CheckForInteractables();
@@ -149,7 +163,56 @@ void ACPlayer::Tick(float DeltaTime)
 /*Create LineTrace , CheckFortheInterface,SetTarget Interactable */
 void ACPlayer::PerformInteractionCheck()
 {
-	
+	// counting time begin 
+	InteractionData.LastInteractionCheckTime = GetWorld()->GetTimeSeconds();
+
+	//little bit more performence than = , this will use with aiming mode 
+	//FVector TraceStart{ FVector::ZeroVector }; 
+	FVector TraceStart {GetPawnViewLocation() }; // initialize pawn eye  
+	// Get ViewRotation convert to vector and multiploe with our checkdistance and add to Trace start 
+	FVector TraceEnd{ TraceStart + (GetViewRotation().Vector() * InteractionCheckDistance) };
+
+	// contains usefulThings for lineTraces
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);//ignore myself 
+	FHitResult TraceHit; //stored actor is hitted 
+
+
+
+
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
+
+
+
+	if (GetWorld()->LineTraceSingleByChannel(TraceHit, TraceStart, TraceEnd, ECC_Visibility, QueryParams))
+	{
+		/* after we hit  check  this is inheritance with our interface */
+		if (TraceHit.GetActor()->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
+		{
+			const float Distance = (TraceStart - TraceHit.ImpactPoint).Size();
+
+
+
+			if (TraceHit.GetActor() != InteractionData.CurrentInteractable && Distance <= InteractionCheckDistance)
+			{
+				// 
+				FoundInteractable(TraceHit.GetActor());
+				return;
+			}
+
+
+
+
+			if (TraceHit.GetActor() == InteractionData.CurrentInteractable)
+			{
+				return;
+			}
+
+		}
+	}
+
+	NoInteractableFound();
+
 }
 
 void ACPlayer::FoundInteractable(AActor * NewInteractable)
