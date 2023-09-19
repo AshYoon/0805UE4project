@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Actions/CAction.h"
 #include "CActionData.generated.h"
 
 

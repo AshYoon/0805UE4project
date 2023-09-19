@@ -10,7 +10,6 @@
 #include "Components/CMontagesComponent.h"
 #include "Widgets/CUserWidget_ActionList.h"
 #include "Components/CFeetComponent.h"
-// Engine 
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Materials/MaterialInstanceConstant.h"
@@ -88,6 +87,12 @@ ACPlayer::ACPlayer()
 	//100ms is fine 
 	InteractionCheckFrequency = 0.1;
 	InteractionCheckDistance = 225.0f;
+
+	// it's public so we can override without getter or setter (not working ) 
+	//BaseEyeHeight = 150.0f;
+	//RecalculateBaseEyeHeight();
+		
+
 }
 
 
@@ -144,7 +149,7 @@ void ACPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// 
+	 
 	if (GetWorld()->TimeSince(InteractionData.LastInteractionCheckTime) > InteractionCheckFrequency)
 	{
 		PerformInteractionCheck();
