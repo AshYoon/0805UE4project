@@ -1,6 +1,3 @@
-
-
-// Game
 #include "CPlayer.h"
 #include "CGameMode.h"
 #include "Global.h"
@@ -13,7 +10,6 @@
 #include "Components/CMontagesComponent.h"
 #include "Widgets/CUserWidget_ActionList.h"
 #include "Components/CFeetComponent.h"
-
 // Engine 
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -233,13 +229,13 @@ void ACPlayer::EndInteract()
 
 void ACPlayer::Interact()
 {
-	CheckForInteractables();
-	CLog::Print("Interact", -1, 10.0f);
+	//CheckForInteractables();
+	//CLog::Print("Interact", -1, 10.0f);
 	// if we find interactable do interactable implementation
-	if (CurrentInteractable != nullptr)
-	{
-		CurrentInteractable->Interact_Implementation();
-	}
+	//if (CurrentInteractable != nullptr)
+	//{
+	//	CurrentInteractable->Interact_Implementation();
+	//}
 
 
 
