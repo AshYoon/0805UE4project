@@ -5,6 +5,8 @@
 #include "Components/CStateComponent.h"
 #include "Components/CInventoryComponent.h"
 #include "Components/CEquipmentComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
 #include "Characters/ICharacter.h"
 #include "Inventory/Interactable.h"
 #include "Inventory/Pickup.h"
@@ -112,6 +114,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Equipment")
 		class UCEquipmentComponent* Equipment;
 
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Audio",meta = (AllowPrivateAccess = "true") )
+		class USoundCue* FootSoundCue;
+
+	UAudioComponent* FootAudioComponent;
 
 public:
 	FORCEINLINE class UCUserWidget_ActionList* GetActionList() { return ActionList; }

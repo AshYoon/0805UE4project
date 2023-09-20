@@ -17,6 +17,7 @@
 #include "DrawDebugHelpers.h"
 #include "Camera/CameraComponent.h" // 카메라 쉐이크 쓸때 필요 
 #include "Animation/AnimInstance.h"
+#include "UObject/ConstructorHelpers.h"
 
 
 // 루트폴더 잡혀있으니깐 경로 모두 안적어도된다 
@@ -43,6 +44,19 @@ ACPlayer::ACPlayer()
 	CHelpers::CreateActorComponent<UCMontagesComponent>(this, &Montages, "Montages");
 	CHelpers::CreateActorComponent<UCFeetComponent>(this, &Feet, "Feet");
 	CHelpers::CreateActorComponent<UCActionComponent>(this, &Action, "Action");
+
+	//Load Sound cue object
+	//CHelpers::GetAsset<USoundCue>(&FootSound, "SoundCue'/Game/Sound/FootStep.FootStep'");
+	static ConstructorHelpers::FObjectFinder<USoundCue> FootSoundObject(TEXT("SoundCue'/Game/Sound/FootStep.FootStep'"));
+	if (FootSoundObject.Succeeded())
+	{
+		FootSoundCue = FootSoundObject.Object;
+
+		FootAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("FootAudioComponent"));
+		FootAudioComponent->SetupAttachment(RootComponent);
+
+
+	}
 
 	bUseControllerRotationYaw = false;
 
@@ -92,7 +106,6 @@ ACPlayer::ACPlayer()
 	//BaseEyeHeight = 150.0f;
 	//RecalculateBaseEyeHeight();
 		
-
 }
 
 
@@ -134,7 +147,10 @@ void ACPlayer::BeginPlay()
 	ActionList->GetData(4).OnUserWidget_ActionItem_Clicked.AddDynamic(this, &ACPlayer::OnFireStorm);
 	ActionList->GetData(5).OnUserWidget_ActionItem_Clicked.AddDynamic(this, &ACPlayer::OnIceBall);
 
-
+	if (FootAudioComponent && FootSoundCue)
+	{
+		FootAudioComponent->SetSound(FootSoundCue);
+	}
 
 
 	//Inventory 
@@ -414,9 +430,10 @@ void ACPlayer::FootStep()
 
 
 
-	DrawDebugLine(GetWorld(), FootTraceStart, FootTraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
+	DrawDebugLine(GetWorld(), FootTraceStart, FootTraceEnd, FColor::Blue, false, 1.0f, 0, 2.0f);
 
-
+	UPhysicalMaterial* Hitpm = HitResult.PhysMaterial.Get();
+	
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, FootTraceStart, FootTraceEnd, ECC_Visibility, CQP))
 	{
@@ -432,6 +449,8 @@ void ACPlayer::FootStep()
 		else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType_Default)
 		{
 			CLog::Print("NoSurface", -1, 10.0f, FColor::Blue);
+
+			FootAudioComponent->Play(0.f);
 
 
 		}
