@@ -17,6 +17,12 @@ void UCAnimInstance::NativeBeginPlay()
 	CheckNull(action);
 
 	action->OnActionTypeChanged.AddDynamic(this, &UCAnimInstance::OnActionTypeChanged);
+
+	
+	
+
+
+
 }
 
 void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)

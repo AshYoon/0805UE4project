@@ -30,6 +30,10 @@ public:
 	// ABP를 위해 필요한 override 함수 
 	virtual void NativeBeginPlay() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
+
+
+	
 private:
 	UFUNCTION()
 		void OnActionTypeChanged(EActionType InPrevType, EActionType InNewType);

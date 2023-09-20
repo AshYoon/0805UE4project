@@ -181,7 +181,7 @@ void ACPlayer::PerformInteractionCheck()
 
 
 
-	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
+	//DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
 
 
 
@@ -246,7 +246,9 @@ void ACPlayer::Interact()
 
 }
 
-
+//=========================================================================
+//                      BINDING KEY 
+//=========================================================================
 
 void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -312,6 +314,9 @@ void ACPlayer::OnMoveRight(float InAxis)
 
 	FRotator rotator = FRotator(0, GetControlRotation().Yaw, 0);
 	FVector direction = FQuat(rotator).GetRightVector();
+
+
+
 
 	AddMovementInput(direction, InAxis);
 }
@@ -394,6 +399,55 @@ void ACPlayer::Begin_Backstep()
 
 }
 
+void ACPlayer::FootStep()
+{
+
+	GetActorLocation();
+	FVector MinusVector(0.f, 0.f,150.0f);
+	FVector FootTraceStart{  GetActorLocation() };
+	FVector FootTraceEnd{ FootTraceStart -  MinusVector};
+	FHitResult HitResult;
+	FCollisionQueryParams CQP = FCollisionQueryParams::DefaultQueryParam;
+	CQP.AddIgnoredActor(this);
+	bool bReturnPhysicalMaterial = CQP.bReturnPhysicalMaterial;
+	bReturnPhysicalMaterial = true;
+
+
+
+	DrawDebugLine(GetWorld(), FootTraceStart, FootTraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
+
+
+
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, FootTraceStart, FootTraceEnd, ECC_Visibility, CQP))
+	{
+		if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType1)
+		{
+			
+			CLog::Print(HitResult.GetActor()->GetName(), -1, 10.0f, FColor::Blue);
+		}
+		else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType2)
+		{
+			CLog::Print("Water", -1, 10.0f, FColor::Blue);
+		}
+		else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType_Default)
+		{
+			CLog::Print("NoSurface", -1, 10.0f, FColor::Blue);
+
+
+		}
+	}
+
+
+
+
+
+	//CLog::Print("footseps", -1, 10.0f, FColor::Red);
+	//GetWorld()->LineTraceSingleByChannel(,)
+
+
+
+}
+
 void ACPlayer::End_Roll()
 {
 	bUseControllerRotationYaw = false;
@@ -409,7 +463,7 @@ void ACPlayer::End_Backstep()
 	// 일단 Add 는 Action 만들기전이니깐 
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-
+	ChangeColor(FColor::Green);
 	// 캐릭터 방향은 반대로 
 	State->SetIdleMode();
 

@@ -16,5 +16,8 @@ void UCAnimNotify_EndBackStep::Notify(USkeletalMeshComponent* MeshComp, UAnimSeq
 	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
 	CheckNull(player);
 
+	player->ChangeColor(FColor::Green);
+	CLog::Log("EndStep");
+
 	player->End_Backstep();
 }

@@ -270,6 +270,7 @@ private:
 	void Begin_Backstep();
 
 public:
+	void FootStep();
 	void End_Roll();
 	void End_Backstep();
 private:
