@@ -200,7 +200,8 @@ protected:
 
 	FInteractionData InteractionData;
 
-
+	//UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "InverseKinemetics")
+//		TEnumAsByte<EDrawDebugTrace::Type> DrawDebugType = EDrawDebugTrace::None;
 	
 //=========================================================================
 //                       FUNCTIONS 

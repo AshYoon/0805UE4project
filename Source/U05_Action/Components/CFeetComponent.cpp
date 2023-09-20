@@ -96,6 +96,15 @@ void UCFeetComponent::Trace(FName InSocket, float& OutDistance, FRotator& OutRot
 	//TEnumAsByte
 		// defualt는 none이지만 TEnumAsByte라고 Byte로 사용한다고 명시해줘야한다
 	//
+	//UPhysicalMaterial* Hitpm = hitResult.PhysMaterial.Get();
+
+	if (UGameplayStatics::GetSurfaceType(hitResult) == EPhysicalSurface::SurfaceType1)
+	{
+		//CLog::Print("Dungeon", -1, 10.0f, FColor::Blue);
+
+		
+	}
+
 
 
 	float length = (hitResult.ImpactPoint - hitResult.TraceEnd).Size();

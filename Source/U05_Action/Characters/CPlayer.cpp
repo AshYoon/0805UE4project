@@ -165,6 +165,9 @@ void ACPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
+	
+
 	 
 	if (GetWorld()->TimeSince(InteractionData.LastInteractionCheckTime) > InteractionCheckFrequency)
 	{
@@ -427,34 +430,48 @@ void ACPlayer::FootStep()
 	CQP.AddIgnoredActor(this);
 	bool bReturnPhysicalMaterial = CQP.bReturnPhysicalMaterial;
 	bReturnPhysicalMaterial = true;
-
+	TArray<AActor*> ignoreActors;
+	ignoreActors.Add(this);
 
 
 	DrawDebugLine(GetWorld(), FootTraceStart, FootTraceEnd, FColor::Blue, false, 1.0f, 0, 2.0f);
 
-	UPhysicalMaterial* Hitpm = HitResult.PhysMaterial.Get();
-	
-
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, FootTraceStart, FootTraceEnd, ECC_Visibility, CQP))
+	UKismetSystemLibrary::LineTraceSingle(GetWorld(),FootTraceStart,FootTraceEnd,UEngineTypes::ConvertToTraceType(ECC_Visibility),
+		true, ignoreActors, EDrawDebugTrace::Type::None, HitResult, true, FColor::Green, FColor::Blue, 1.0f);
+	if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType1)
 	{
-		if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType1)
-		{
-			
-			CLog::Print(HitResult.GetActor()->GetName(), -1, 10.0f, FColor::Blue);
-		}
-		else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType2)
-		{
-			CLog::Print("Water", -1, 10.0f, FColor::Blue);
-		}
-		else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType_Default)
-		{
-			CLog::Print("NoSurface", -1, 10.0f, FColor::Blue);
+		CLog::Print("Dungeon", -1, 10.0f, FColor::Blue);
 
-			FootAudioComponent->Play(0.f);
-
-
-		}
+		FootAudioComponent->SetIntParameter("foot", 0);
+		FootAudioComponent->Play(0.f);
 	}
+	else if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType2)
+	{
+		CLog::Print("Water", -1, 10.0f, FColor::Blue);
+		FootAudioComponent->SetIntParameter("foot", 1);
+		FootAudioComponent->Play(0.f);
+	}
+
+	//if (GetWorld()->LineTraceSingleByChannel(HitResult, FootTraceStart, FootTraceEnd, ECC_Visibility, CQP))
+	//{
+	//	if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType1)
+	//	{
+	//		
+	//		CLog::Print(HitResult.GetActor()->GetName(), -1, 10.0f, FColor::Blue);
+	//	}
+	//	else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType2)
+	//	{
+	//		CLog::Print("Water", -1, 10.0f, FColor::Blue);
+	//	}
+	//	else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType_Default)
+	//	{
+	//		//CLog::Print("NoSurface", -1, 10.0f, FColor::Blue);
+
+	//		//FootAudioComponent->Play(0.f);
+
+
+	//	}
+	//}
 
 
 
