@@ -96,32 +96,28 @@ void UCFeetComponent::Trace(FName InSocket, float& OutDistance, FRotator& OutRot
 	//TEnumAsByte
 		// defualt는 none이지만 TEnumAsByte라고 Byte로 사용한다고 명시해줘야한다
 	//
-	//UPhysicalMaterial* Hitpm = hitResult.PhysMaterial.Get();
 
-	if (UGameplayStatics::GetSurfaceType(hitResult) == EPhysicalSurface::SurfaceType1)
+	if (hitResult.GetActor())
 	{
-		//CLog::Print("Dungeon", -1, 10.0f, FColor::Blue);
+		float length = (hitResult.ImpactPoint - hitResult.TraceEnd).Size();
+		OutDistance = OffsetDistance + length - TraceDistance;
 
-		
+
+
+		//기울기는 탄젠트 Sin이 Y로 X가 코사인인데 
+
+		// 수직축이 Yaw , 돌아갈순있지만 쓰지않는다 
+
+		// roll 탄젠트는 역기울기 사용 , 
+
+		// 대입만하면되니깐 내가 한번 해석해보기 
+		FVector normal = hitResult.ImpactNormal;
+		float roll = UKismetMathLibrary::DegAtan2(normal.Y, normal.Z);
+		float pitch = -UKismetMathLibrary::DegAtan2(normal.X, normal.Z);
+
+		OutRotation = FRotator(pitch, 0.0f, roll);
 	}
 
 
 
-	float length = (hitResult.ImpactPoint - hitResult.TraceEnd).Size();
-	OutDistance = OffsetDistance + length - TraceDistance;
-
-
-
-	//기울기는 탄젠트 Sin이 Y로 X가 코사인인데 
-
-	// 수직축이 Yaw , 돌아갈순있지만 쓰지않는다 
-
-	// roll 탄젠트는 역기울기 사용 , 
-
-	// 대입만하면되니깐 내가 한번 해석해보기 
-	FVector normal = hitResult.ImpactNormal;
-	float roll = UKismetMathLibrary::DegAtan2(normal.Y, normal.Z);
-	float pitch = -UKismetMathLibrary::DegAtan2(normal.X, normal.Z);
-
-	OutRotation = FRotator(pitch, 0.0f, roll);
 }

@@ -104,6 +104,7 @@ ACPlayer::ACPlayer()
 
 	// it's public so we can override without getter or setter (not working ) 
 	//BaseEyeHeight = 150.0f;
+	BaseEyeHeight = 74.0f;
 	//RecalculateBaseEyeHeight();
 		
 }
@@ -188,46 +189,50 @@ void ACPlayer::PerformInteractionCheck()
 
 	//little bit more performence than = , this will use with aiming mode 
 	//FVector TraceStart{ FVector::ZeroVector }; 
-	FVector TraceStart {GetPawnViewLocation() }; // initialize pawn eye  
+	FVector TraceStart {GetPawnViewLocation()  }; // initialize pawn eye  
 	// Get ViewRotation convert to vector and multiploe with our checkdistance and add to Trace start 
 	FVector TraceEnd{ TraceStart + (GetViewRotation().Vector() * InteractionCheckDistance) };
 
-	// contains usefulThings for lineTraces
-	FCollisionQueryParams QueryParams;
-	QueryParams.AddIgnoredActor(this);//ignore myself 
-	FHitResult TraceHit; //stored actor is hitted 
 
+	float LookDirection =  FVector::DotProduct(GetActorForwardVector(),GetViewRotation().Vector()); 
 
-
-
-	//DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
-
-
-
-	if (GetWorld()->LineTraceSingleByChannel(TraceHit, TraceStart, TraceEnd, ECC_Visibility, QueryParams))
+	/* if pointing positive , pointing same direction , then do linetrace  , compare Character vector and view vector */
+	// view angle of interaction check is 180 degree
+	if (LookDirection > 0)
 	{
-		/* after we hit  check  this is inheritance with our interface */
-		if (TraceHit.GetActor()->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
+		// contains usefulThings for lineTraces
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(this);//ignore myself 
+		FHitResult TraceHit; //stored actor is hitted 
+		DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
+
+		if (GetWorld()->LineTraceSingleByChannel(TraceHit, TraceStart, TraceEnd, ECC_Visibility, QueryParams))
 		{
-			const float Distance = (TraceStart - TraceHit.ImpactPoint).Size();
 
 
-
-			if (TraceHit.GetActor() != InteractionData.CurrentInteractable && Distance <= InteractionCheckDistance)
+			/* after we hit  check  this is inheritance with our interface */
+			if (TraceHit.GetActor()->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
 			{
-				// 
-				FoundInteractable(TraceHit.GetActor());
-				return;
+				const float Distance = (TraceStart - TraceHit.ImpactPoint).Size();
+
+
+
+				if (TraceHit.GetActor() != InteractionData.CurrentInteractable && Distance <= InteractionCheckDistance)
+				{
+					// 
+					FoundInteractable(TraceHit.GetActor());
+					return;
+				}
+
+
+
+
+				if (TraceHit.GetActor() == InteractionData.CurrentInteractable)
+				{
+					return;
+				}
+
 			}
-
-
-
-
-			if (TraceHit.GetActor() == InteractionData.CurrentInteractable)
-			{
-				return;
-			}
-
 		}
 	}
 
@@ -436,8 +441,16 @@ void ACPlayer::FootStep()
 
 	DrawDebugLine(GetWorld(), FootTraceStart, FootTraceEnd, FColor::Blue, false, 1.0f, 0, 2.0f);
 
+	// 
 	UKismetSystemLibrary::LineTraceSingle(GetWorld(),FootTraceStart,FootTraceEnd,UEngineTypes::ConvertToTraceType(ECC_Visibility),
 		true, ignoreActors, EDrawDebugTrace::Type::None, HitResult, true, FColor::Green, FColor::Blue, 1.0f);
+
+
+
+	// sound asset is available - snow , rock , soil , dungeon , water , glass, grass  ,wood
+	// Dungeon , Water , Soil , Rock , Snow , Wood ,Grass , Glass 
+
+	// nullcheck ? 
 	if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType1)
 	{
 		CLog::Print("Dungeon", -1, 10.0f, FColor::Blue);
@@ -451,34 +464,43 @@ void ACPlayer::FootStep()
 		FootAudioComponent->SetIntParameter("foot", 1);
 		FootAudioComponent->Play(0.f);
 	}
+	else if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType3)
+	{
+		CLog::Print("Soil", -1, 10.0f, FColor::Blue);
+		FootAudioComponent->SetIntParameter("foot", 2);
+		FootAudioComponent->Play(0.f);
+	}
+	else if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType4)
+	{
+		CLog::Print("Rock", -1, 10.0f, FColor::Blue);
+		FootAudioComponent->SetIntParameter("foot", 3);
+		FootAudioComponent->Play(0.f);
+	}
+	else if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType5)
+	{
+		CLog::Print("Snow", -1, 10.0f, FColor::Blue);
+		FootAudioComponent->SetIntParameter("foot", 4);
+		FootAudioComponent->Play(0.f);
+	}
+	else if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType6)
+	{
+		CLog::Print("Wood", -1, 10.0f, FColor::Blue);
+		FootAudioComponent->SetIntParameter("foot", 5);
+		FootAudioComponent->Play(0.f);
+	}
+	else if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType7)
+	{
+		CLog::Print("Grass", -1, 10.0f, FColor::Blue);
+		FootAudioComponent->SetIntParameter("foot", 6);
+		FootAudioComponent->Play(0.f);
+	}
+	else if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType7)
+	{
+		CLog::Print("Glass", -1, 10.0f, FColor::Blue);
+		FootAudioComponent->SetIntParameter("foot", 7);
+		FootAudioComponent->Play(0.f);
+	}
 
-	//if (GetWorld()->LineTraceSingleByChannel(HitResult, FootTraceStart, FootTraceEnd, ECC_Visibility, CQP))
-	//{
-	//	if (UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType1)
-	//	{
-	//		
-	//		CLog::Print(HitResult.GetActor()->GetName(), -1, 10.0f, FColor::Blue);
-	//	}
-	//	else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType2)
-	//	{
-	//		CLog::Print("Water", -1, 10.0f, FColor::Blue);
-	//	}
-	//	else if(UGameplayStatics::GetSurfaceType(HitResult) == EPhysicalSurface::SurfaceType_Default)
-	//	{
-	//		//CLog::Print("NoSurface", -1, 10.0f, FColor::Blue);
-
-	//		//FootAudioComponent->Play(0.f);
-
-
-	//	}
-	//}
-
-
-
-
-
-	//CLog::Print("footseps", -1, 10.0f, FColor::Red);
-	//GetWorld()->LineTraceSingleByChannel(,)
 
 
 
