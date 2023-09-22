@@ -229,6 +229,8 @@ void ACPlayer::PerformInteractionCheck()
 
 				if (TraceHit.GetActor() == InteractionData.CurrentInteractable)
 				{
+
+
 					return;
 				}
 
@@ -242,18 +244,102 @@ void ACPlayer::PerformInteractionCheck()
 
 void ACPlayer::FoundInteractable(AActor * NewInteractable)
 {
+	// check for previous interactable 
+	if (IsInteracting())
+	{
+		EndInteract();
+	}
+
+	if (InteractionData.CurrentInteractable)
+	{
+		/*if we have one , we gonna setup target interactable*/
+		TargetInteractable = InteractionData.CurrentInteractable;
+		TargetInteractable->BeginFocus();
+	}
+
+	InteractionData.CurrentInteractable = NewInteractable;
+	TargetInteractable = NewInteractable;
+
+	TargetInteractable->BeginFocus();
+
+
+
 }
 
 void ACPlayer::NoInteractableFound()
 {
+	// if we can't find interactable , clear  the world timer for interaction timerhandle
+	if (IsInteracting())
+	{
+		GetWorldTimerManager().ClearTimer(TimerHandle_Interaction);
+	}
+
+	if (InteractionData.CurrentInteractable)
+	{
+		if (IsValid(TargetInteractable.GetObject()))
+		{
+			/*there is time for destroy before this, it would destroy pickup , before this prosses is gone  */
+			//remove for crush , IsValid will check it 
+			TargetInteractable->EndFocus();
+
+		}
+		// hide interaction widget on the HUD
+
+		InteractionData.CurrentInteractable = nullptr;
+		TargetInteractable = nullptr;
+	}
+
+
+
+
 }
 
 void ACPlayer::BeginInteract()
 {
+	/*origin of interactions */
+	/*doublecheck ? , quick check to verify nothing has change with the interactable state since beginning interaction*/
+	// just for fail safe ! , 
+	PerformInteractionCheck();
+
+	// always check this 
+	if (InteractionData.CurrentInteractable)
+	{
+		if (IsValid(TargetInteractable.GetObject()))
+		{
+			TargetInteractable->BeginInteract();
+
+			/* 0.1 s , is really fast ,if interaction time is really short it could be pointless */
+			if (FMath::IsNearlyZero(TargetInteractable->InteractableData.InteractableDuration, 0.1f))
+			{
+				Interact();
+			}
+			else
+			{
+				/*if valid delay above 0.1s which is what we set start timer , with interactableDuration */
+				GetWorldTimerManager().SetTimer(TimerHandle_Interaction,
+					this,
+					&ACPlayer::Interact,
+					TargetInteractable->InteractableData.InteractableDuration,
+					false);
+			}
+		}
+	}
+
+
 }
 
 void ACPlayer::EndInteract()
 {
+	/* doesn't need to check interact*/
+	GetWorldTimerManager().ClearTimer(TimerHandle_Interaction);
+	if (IsValid(TargetInteractable.GetObject()))
+	{
+		TargetInteractable->EndInteract();
+	}
+
+
+
+
 }
 
 void ACPlayer::Interact()
@@ -265,6 +351,18 @@ void ACPlayer::Interact()
 	//{
 	//	CurrentInteractable->Interact_Implementation();
 	//}
+
+	/*new version of interact with Interactable Duration and WorldTimer */
+	GetWorldTimerManager().ClearTimer(TimerHandle_Interaction);
+
+
+
+	if (IsValid(TargetInteractable.GetObject()))
+	{
+		TargetInteractable->Interact();
+	}
+
+
 
 
 
@@ -289,7 +387,8 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("VerticalLook", this, &ACPlayer::OnVerticalLook);
 
 	/// my action key = F 
-	PlayerInputComponent->BindAction("InterActive", EInputEvent::IE_Pressed,this, &ACPlayer::Interact);
+	PlayerInputComponent->BindAction("InterActive", EInputEvent::IE_Pressed,this, &ACPlayer::BeginInteract);
+	PlayerInputComponent->BindAction("InterActive", EInputEvent::IE_Released, this, &ACPlayer::EndInteract);
 	// Toggle Inventory key = i
 	PlayerInputComponent->BindAction("ToggleInventory", EInputEvent::IE_Pressed, this, &ACPlayer::ToggleInventory);
 

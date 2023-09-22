@@ -259,6 +259,10 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
+	/* not need to change read only function -> make with const */
+	
+	/* more use for interaction 'Time'   */
+	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandle_Interaction); };
 	// ForTimer , Delay 
 	FTimerHandle GravityTimerHandle;
 	float GravityTime = 3.f;
