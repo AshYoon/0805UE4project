@@ -29,28 +29,28 @@ public:
 
 
 
-	UPROPERTY(VisibleAnywhere, Category = "Item Data", meta = (UIMin = 1, UIMax = 100))
+	UPROPERTY(VisibleAnywhere, Category = "Item ")
 		int32 Quanity; // == amount 
 
-	UPROPERTY(EditAnywhere, Category = "Item Data")
+	UPROPERTY(EditAnywhere, Category = "Item ")
 		FName ID;
 
-	UPROPERTY(EditAnywhere, Category = "Item Data")
+	UPROPERTY(EditAnywhere, Category = "Item ")
 		EItemType ItemType;
 
-	UPROPERTY(EditAnywhere, Category = "Item Data")
+	UPROPERTY(EditAnywhere, Category = "Item ")
 		EItemQuality ItemQuality;
 
-	UPROPERTY(EditAnywhere, Category = "Item Data")
+	UPROPERTY(EditAnywhere, Category = "Item ")
 		FItemStatisics ItemStatisics;
 
-	UPROPERTY(EditAnywhere, Category = "Item Data")
+	UPROPERTY(EditAnywhere, Category = "Item ")
 		FItemTextData ItemTextData;
 
-	UPROPERTY(EditAnywhere, Category = "Item Data")
+	UPROPERTY(EditAnywhere, Category = "Item ")
 		FItemNumericData NumbericData;
 
-	UPROPERTY(EditAnywhere, Category = "Item Data")
+	UPROPERTY(EditAnywhere, Category = "Item ")
 		FItemAssetData AssetData;
 
 	//=========================================================================
@@ -93,7 +93,9 @@ protected:
 	//TArray has function , key to key find , must be overload == to find key value in TArray 
 	bool operator==(const FName& OtherID) const
 	{
-		return ID == OtherID;
+		/*tihs pointer making it very clear here that we're taking the id from this item class 
+		we're in and another id from another item class*/
+		return this->ID == OtherID;
 	}
 
 	//=========================================================================

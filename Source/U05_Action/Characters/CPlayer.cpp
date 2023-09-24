@@ -188,8 +188,13 @@ void ACPlayer::PerformInteractionCheck()
 	InteractionData.LastInteractionCheckTime = GetWorld()->GetTimeSeconds();
 
 	//little bit more performence than = , this will use with aiming mode 
+	//when you initialize with brackets ({ }) extremely type safe becasuse it guarantees that type you're
+	// using ,is going to get initialized ,bracket initialize = very type safe
 	//FVector TraceStart{ FVector::ZeroVector }; 
 	FVector TraceStart {GetPawnViewLocation()  }; // initialize pawn eye  
+
+
+
 	// Get ViewRotation convert to vector and multiploe with our checkdistance and add to Trace start 
 	FVector TraceEnd{ TraceStart + (GetViewRotation().Vector() * InteractionCheckDistance) };
 
@@ -213,11 +218,11 @@ void ACPlayer::PerformInteractionCheck()
 			/* after we hit  check  this is inheritance with our interface */
 			if (TraceHit.GetActor()->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
 			{
-				const float Distance = (TraceStart - TraceHit.ImpactPoint).Size();
 
 
 
-				if (TraceHit.GetActor() != InteractionData.CurrentInteractable && Distance <= InteractionCheckDistance)
+
+				if (TraceHit.GetActor() != InteractionData.CurrentInteractable)
 				{
 					// 
 					FoundInteractable(TraceHit.GetActor());
