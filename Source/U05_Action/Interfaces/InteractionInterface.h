@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "InteractionInterface.generated.h"
-
-
+/*foward declaration , 전방선언*/
+class ACPlayer;
 
 // Device -> door , Gate , Interactable Level Design stuff , Toggle - Button or Swich to move SomeThing,  
 UENUM()
@@ -91,7 +91,7 @@ public:
 	virtual void BeginInteract();
 	virtual void EndInteract();
 
-	virtual void Interact();
+	virtual void Interact(ACPlayer* PlayerCharacter);
 
 	FInteractableData InteractableData;
 

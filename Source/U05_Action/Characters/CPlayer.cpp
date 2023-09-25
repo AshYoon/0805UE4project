@@ -364,7 +364,8 @@ void ACPlayer::Interact()
 
 	if (IsValid(TargetInteractable.GetObject()))
 	{
-		TargetInteractable->Interact();
+		/*this character call the interact */
+		TargetInteractable->Interact(this);
 	}
 
 

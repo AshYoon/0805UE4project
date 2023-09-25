@@ -7,6 +7,8 @@
 #include "Interfaces/InteractionInterface.h"
 #include "InterfaceTestActor.generated.h"
 
+class ACPlayer;
+
 UCLASS()
 class U05_ACTION_API AInterfaceTestActor : public AActor , public IInteractionInterface
 {
@@ -40,7 +42,7 @@ protected:
 	virtual void EndFocus() override;
 	virtual void BeginInteract() override;
 	virtual void EndInteract() override;
-	virtual void Interact() override;
+	virtual void Interact(ACPlayer* PlayerCharacter) override;
 
 
 };

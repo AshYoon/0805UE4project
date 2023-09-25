@@ -3,6 +3,7 @@
 
 #include "World/InterfaceTestActor.h"
 #include "Global.h"
+#include "Characters/CPlayer.h"
 
 // Sets default values
 AInterfaceTestActor::AInterfaceTestActor()
@@ -63,7 +64,7 @@ void AInterfaceTestActor::EndInteract()
 
 }
 
-void AInterfaceTestActor::Interact()
+void AInterfaceTestActor::Interact(ACPlayer* PlayerCharacter)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Calling Interact override on interfeace test actor."));
 }
