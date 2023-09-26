@@ -1,6 +1,7 @@
 #include "CHUD.h"
 #include "Global.h"
 #include "Widgets/MainMenu.h"
+#include "Widgets/Interaction/InteractionWidget.h"
 #include "Engine/Texture2D.h"
 #include "Engine/Canvas.h"
 
@@ -11,51 +12,98 @@ ACHUD::ACHUD()
 	//Texture2D'/Game/Textures/T_Crosshair.T_Crosshair'
 
 }
+
+
 void ACHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//if (MainMenuClass)
-	//{
-	//	/*UMainMenu::StaticClass()-> if we need this only for C++ use this but half of the widget is the graphical element
-	//	and that only exists in the editor, so that is why we use UProperties */
-	//	MainMenuWidget = CreateWidget<UMainMenu>(GetWorld(), MainMenuClass);
-	//	MainMenuWidget->AddToViewport();
-	//	/* similer with hidden */
-	//	MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+	// format of create UI,Widget
+	if (MainMenuClass)
+	{
+		/*UMainMenu::StaticClass()-> if we need this only for C++ use this but half of the widget is the graphical element
+		and that only exists in the editor, so that is why we use UProperties */
+		MainMenuWidget = CreateWidget<UMainMenu>(GetWorld(), MainMenuClass);
+		MainMenuWidget->AddToViewport(5);
+		/* similer with hidden */
+		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 
-	//}
+	}
+
+	if (InteractionWidgetClass)
+	{
+
+		InteractionWidget = CreateWidget<UInteractionWidget>(GetWorld(), InteractionWidgetClass);
+		InteractionWidget->AddToViewport(-1);
+		InteractionWidget->SetVisibility(ESlateVisibility::Collapsed);
+
+	}
 
 
 
 }
 void ACHUD::DisplayMenu()
 {
+	if (MainMenuWidget)
+	{
+
+
+		bIsMenuVisible = true;
+		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
+
+
+	}
+
 
 
 }
 
 void ACHUD::HideMenu()
 {
+	if (MainMenuWidget)
+	{
 
+
+		bIsMenuVisible = false;
+		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+
+
+	}
 
 }
 
 void ACHUD::ShowInteractionWidget()
 {
-
+	if (InteractionWidget)
+	{
+		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
+	}
 
 }
 
 void ACHUD::HideInteractionWidget()
 {
-
+	if (InteractionWidget)
+	{
+		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
+	}
 
 }
 
 void ACHUD::UpdateInteractionWidget(const FInteractableData * InteractionData)
 {
 
+	if (InteractionWidget)
+	{
+		if (InteractionWidget->GetVisibility() == ESlateVisibility::Collapsed)
+		{
+			InteractionWidget->SetVisibility(ESlateVisibility::Visible);
+		}
+
+
+		//InteractionWidget->UpdateWidget(InteractionData);
+
+	}
 
 
 

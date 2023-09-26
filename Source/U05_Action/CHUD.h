@@ -61,11 +61,11 @@ protected:
 	//=========================================================================
 	//                       PROPERTIES & VARIABLES
 	//=========================================================================
-	//UPROPERY()
-	//	UMainMenu* MainMenuWidget;
+	UPROPERTY()
+		UMainMenu* MainMenuWidget;
 
-	//UPROPERTY()
-	//	UInteractionWidget* InteractionWidget;
+	UPROPERTY()
+		UInteractionWidget* InteractionWidget;
 	//=========================================================================
 	//                       FUNCTIONS 
 	//=========================================================================
