@@ -85,7 +85,8 @@ void ACHUD::HideInteractionWidget() const
 {
 	if (InteractionWidget)
 	{
-		MainMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+		InteractionWidget->SetVisibility(ESlateVisibility::Collapsed);
+		CLog::Print("Hide", -1, 5.0f, FColor::Blue);
 	}
 
 }
