@@ -2,4 +2,79 @@
 
 
 #include "Widgets/Interaction/InteractionWidget.h"
+#include "Components/ProgressBar.h"
+#include "Components/TextBlock.h"
+#include "Interfaces/InteractionInterface.h"
+
+void UInteractionWidget::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+
+
+	InteractionProgressBar->PercentDelegate.BindUFunction(this, "UpdateInteractionProgress");
+
+}
+
+void UInteractionWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	KeyPressText->SetText(FText::FromString("Press"));
+	CurrnetInteractionDuration = 0.0f;
+
+}
+
+void UInteractionWidget::UpdateWidget(const FInteractableData * InteractableData)
+{
+	switch (InteractableData->InteractableType)
+	{
+	case EInteractableType::Pickup:
+		KeyPressText->SetText(FText::FromString("Press"));
+		InteractionProgressBar->SetVisibility(ESlateVisibility::Collapsed);
+
+		if (InteractableData->Quantity < 2) // 
+		{
+			// if Quanity is only " 1 " 
+			QuanityText->SetVisibility(ESlateVisibility::Collapsed);
+		}
+		else
+		{
+			/* NSLOCTEXT -> localization TEXT  , x{0} <- is like a %d in c */
+			QuanityText->SetText(FText::Format(NSLOCTEXT("InteractionWidget", "QuanityText", "x{0}"),
+				InteractableData->Quantity));
+			QuanityText->SetVisibility(ESlateVisibility::Visible);
+
+
+		}
+		break;
+
+	case EInteractableType::NonPlayerCharacter:
+		break;
+
+	case EInteractableType::Device:
+		break;
+
+	case EInteractableType::Toggle:
+		break;
+
+	case EInteractableType::Container:
+		break;
+
+	default:
+
+	}
+
+
+}
+
+float UInteractionWidget::UpdateInteractionProgress()
+{
+
+
+
+
+	return 0.0f;
+}
+
 
