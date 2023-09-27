@@ -72,7 +72,7 @@ void ACHUD::HideMenu()
 
 }
 
-void ACHUD::ShowInteractionWidget()
+void ACHUD::ShowInteractionWidget() const 
 {
 	if (InteractionWidget)
 	{
@@ -81,17 +81,18 @@ void ACHUD::ShowInteractionWidget()
 
 }
 
-void ACHUD::HideInteractionWidget()
+void ACHUD::HideInteractionWidget() const 
 {
 	if (InteractionWidget)
 	{
-		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
+		MainMenuWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
 }
 
-void ACHUD::UpdateInteractionWidget(const FInteractableData * InteractionData)
+void ACHUD::UpdateInteractionWidget(const FInteractableData * InteractionData) const 
 {
+	/*when character find interactable where we gonna to call this to pass this data in and then it will update */
 
 	if (InteractionWidget)
 	{
@@ -101,7 +102,7 @@ void ACHUD::UpdateInteractionWidget(const FInteractableData * InteractionData)
 		}
 
 
-		//InteractionWidget->UpdateWidget(InteractionData);
+		InteractionWidget->UpdateWidget(InteractionData);
 
 	}
 

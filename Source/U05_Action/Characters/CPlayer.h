@@ -17,6 +17,8 @@
 /*
 InteractionDataStruct - info of Interaction 
 */
+class ACHUD;
+
 USTRUCT()
 struct FInteractionData
 {
@@ -199,6 +201,10 @@ protected:
 	FTimerHandle TimerHandle_Interaction;
 
 	FInteractionData InteractionData;
+
+	UPROPERTY()
+	ACHUD* HUD;
+	
 
 	//UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "InverseKinemetics")
 //		TEnumAsByte<EDrawDebugTrace::Type> DrawDebugType = EDrawDebugTrace::None;

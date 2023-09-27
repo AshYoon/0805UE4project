@@ -18,6 +18,7 @@
 #include "Camera/CameraComponent.h" // 카메라 쉐이크 쓸때 필요 
 #include "Animation/AnimInstance.h"
 #include "UObject/ConstructorHelpers.h"
+#include "CHUD.h"
 
 
 // 루트폴더 잡혀있으니깐 경로 모두 안적어도된다 
@@ -158,6 +159,9 @@ void ACPlayer::BeginPlay()
 	Inventory.SetNum(4);
 	CurrentInteractable = nullptr;
 
+	HUD = Cast<ACHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+
+
 
 
 }
@@ -265,6 +269,9 @@ void ACPlayer::FoundInteractable(AActor * NewInteractable)
 	InteractionData.CurrentInteractable = NewInteractable;
 	TargetInteractable = NewInteractable;
 
+	/*must be passing it by reference*/
+	HUD->UpdateInteractionWidget(&TargetInteractable->InteractableData);
+
 	TargetInteractable->BeginFocus();
 
 
@@ -289,6 +296,7 @@ void ACPlayer::NoInteractableFound()
 
 		}
 		// hide interaction widget on the HUD
+		HUD->HideInteractionWidget();
 
 		InteractionData.CurrentInteractable = nullptr;
 		TargetInteractable = nullptr;

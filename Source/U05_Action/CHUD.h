@@ -50,10 +50,10 @@ public:
 
 	void DisplayMenu();
 	void HideMenu();
-	void ShowInteractionWidget();
-	void HideInteractionWidget();
+	void ShowInteractionWidget() const;
+	void HideInteractionWidget() const;
 	/* just get the reference */
-	void UpdateInteractionWidget(const FInteractableData* InteractionData);
+	void UpdateInteractionWidget(const FInteractableData* InteractionData) const;
 
 
 

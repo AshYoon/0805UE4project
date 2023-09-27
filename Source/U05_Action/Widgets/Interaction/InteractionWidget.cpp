@@ -25,7 +25,8 @@ void UInteractionWidget::NativeConstruct()
 
 }
 
-void UInteractionWidget::UpdateWidget(const FInteractableData * InteractableData)
+/* is not change data , just using data to show up , "read only function " */
+void UInteractionWidget::UpdateWidget(const FInteractableData * InteractableData) const
 {
 	switch (InteractableData->InteractableType)
 	{
@@ -41,8 +42,7 @@ void UInteractionWidget::UpdateWidget(const FInteractableData * InteractableData
 		else
 		{
 			/* NSLOCTEXT -> localization TEXT  , x{0} <- is like a %d in c */
-			QuanityText->SetText(FText::Format(NSLOCTEXT("InteractionWidget", "QuanityText", "x{0}"),
-				InteractableData->Quantity));
+			QuanityText->SetText(FText::Format(FText::FromString("x{0}"), InteractableData->Quantity));
 			QuanityText->SetVisibility(ESlateVisibility::Visible);
 
 
@@ -62,11 +62,17 @@ void UInteractionWidget::UpdateWidget(const FInteractableData * InteractableData
 		break;
 
 	default:
+		break;
 
 	}
-
+	ActionText->SetText(InteractableData->Action);
+	NameText->SetText(InteractableData->Name);
 
 }
+
+
+
+
 
 float UInteractionWidget::UpdateInteractionProgress()
 {

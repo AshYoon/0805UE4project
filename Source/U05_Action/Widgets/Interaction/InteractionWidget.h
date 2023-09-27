@@ -21,9 +21,9 @@ class U05_ACTION_API UInteractionWidget : public UUserWidget
 public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Interaction Widget | Player Reference")
-		ACPlayer* PlayerReference;
+	ACPlayer* PlayerReference;
 
-	void UpdateWidget(const FInteractableData* InteractableData);
+	void UpdateWidget(const FInteractableData* InteractableData) const;
 
 
 
@@ -34,26 +34,26 @@ protected:
 	if that graphical part widget deosn't include a text box with this exact
 	variable name , you will get a !! COMPILER ERROR !! on the editor 
 	this is how we link */
-	UPROPERTY(VisibleAnywhere, meta = (Binding Widget),Category = "Interaction Widget | Interactable Data")
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = "Interaction Widget | Interactable Data")
 	UTextBlock* NameText;
 
 
-	UPROPERTY(VisibleAnywhere, meta = (Binding Widget), Category = "Interaction Widget | Interactable Data")
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = "Interaction Widget | Interactable Data")
 	UTextBlock* ActionText;
 
 
-	UPROPERTY(VisibleAnywhere, meta = (Binding Widget), Category = "Interaction Widget | Interactable Data")
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = "Interaction Widget | Interactable Data")
 	UTextBlock* QuanityText;
 
 
 	/* for the time of Interaction */
-	UPROPERTY(VisibleAnywhere, meta = (Binding Widget), Category = "Interaction Widget | Interactable Data")
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = "Interaction Widget | Interactable Data")
 	UTextBlock* KeyPressText;
 
-	UPROPERTY(VisibleAnywhere, meta = (Binding Widget), Category = "Interaction Widget | Interactable Data")
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = "Interaction Widget | Interactable Data")
 	UProgressBar* InteractionProgressBar;
 
-	UPROPERTY(VisibleAnywhere, meta = (Binding Widget), Category = "Interaction Widget | Interactable Data")
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget), Category = "Interaction Widget | Interactable Data")
 	float CurrnetInteractionDuration;
 
 	// if this function called this will be how to progress bar know how much to fill up
