@@ -52,18 +52,18 @@ protected:
 	UStaticMeshComponent* PickupMesh;
 
 	/**/
-	UPROPERTY(EditInstanceOnly, Category = "Pickup | Item Database")
+	UPROPERTY(EditInstanceOnly, Category = "Pickup | Item Initialization")
 	UDataTable* ItemDataTable;
 
 
-	UPROPERTY(EditInstanceOnly, Category = "Pickup | Item Database")
+	UPROPERTY(EditInstanceOnly, Category = "Pickup | Item Initialization")
 	FName DesiredItemID;
 
 	/*set by the datatable*/
 	UPROPERTY(VisibleAnywhere, Category = "Pickup | Item Reference")
 	UItemBase* ItemReference;
 
-	UPROPERTY(EditInstanceOnly, Category = "Pickup | Item Reference")
+	UPROPERTY(EditInstanceOnly, Category = "Pickup | Item Initialization")
 	int32 ItemQuanity;
 
 	//set in the editor , ex) door,
@@ -80,6 +80,9 @@ protected:
 	
 	void TakePickup(const ACPlayer* Taker);
 
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 
+#endif
 
 };

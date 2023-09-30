@@ -11,7 +11,7 @@ ACPickup::ACPickup()
 
 	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>("PickupMesh");
 
-	PickupMesh->SetSimulatePhysics(true); // set physics , it could be performance issue
+	PickupMesh->SetSimulatePhysics(false); // set physics , it could be performance issue
 
 	SetRootComponent(PickupMesh);
 }
@@ -151,5 +151,30 @@ void ACPickup::TakePickup(const ACPlayer * Taker)
 
 		}
 	}
+}
+
+void ACPickup::PostEditChangeProperty(FPropertyChangedEvent & PropertyChangedEvent)
+{
+
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+
+	// if change property valid 
+	const FName ChangedPropertyName = PropertyChangedEvent.Property ? PropertyChangedEvent.Property->GetFName() : NAME_None;
+
+	// if checking 
+	if (ChangedPropertyName == GET_MEMBER_NAME_CHECKED(ACPickup, DesiredItemID))
+	{
+		if (ItemDataTable)
+		{
+
+			/*if we get valid row */
+			if (const FItemData* ItemData = ItemDataTable->FindRow<FItemData>(DesiredItemID, DesiredItemID.ToString()))
+			{
+				PickupMesh->SetStaticMesh(ItemData->AssetData.Mesh);
+			}
+		}
+	}
+
+
 }
 
