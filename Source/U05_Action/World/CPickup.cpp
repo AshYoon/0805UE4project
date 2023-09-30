@@ -153,6 +153,7 @@ void ACPickup::TakePickup(const ACPlayer * Taker)
 	}
 }
 
+#if WITH_EDITOR
 void ACPickup::PostEditChangeProperty(FPropertyChangedEvent & PropertyChangedEvent)
 {
 
@@ -178,3 +179,4 @@ void ACPickup::PostEditChangeProperty(FPropertyChangedEvent & PropertyChangedEve
 
 }
 
+#endif
