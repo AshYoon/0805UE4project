@@ -45,7 +45,7 @@ struct FInteractionData
 // enum문에 접근해야하니깐 헤더에 넣어줘야한다 
 // 상속구조 추가하는 방법 Check 
 UCLASS()
-class U05_ACTION_API ACPlayer : public ACharacter,public IICharacter , public IGenericTeamAgentInterface
+class U05_ACTION_API ACPlayer : public ACharacter,public IICharacter , public IGenericTeamAgentInterface 
 {
 	
 	GENERATED_BODY()

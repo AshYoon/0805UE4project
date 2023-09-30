@@ -8,6 +8,8 @@
 
 /**
  * 
+ it's just a pure array , it's not going to be a slot based inventory 
+
  */
 UCLASS()
 class U05_ACTION_API UInventoryPanel : public UUserWidget
