@@ -77,6 +77,9 @@ struct FItemStatisics
 
 	UPROPERTY(EditAnywhere)
 	float ModifierValue; // increase player stat
+
+	UPROPERTY(EditAnywhere)
+	float SellValue; // increase player stat
 };
 
 

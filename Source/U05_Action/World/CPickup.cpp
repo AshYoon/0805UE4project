@@ -3,7 +3,7 @@
 
 #include "World/CPickup.h"
 #include "Items/ItemBase.h"
-
+#include "Global.h"
 
 ACPickup::ACPickup()
 {
@@ -32,13 +32,14 @@ void ACPickup::BeginPlay()
 void ACPickup::InitializePickup(const TSubclassOf<UItemBase> BaseClass, const int32 InQuanity)
 {
 	/*get the itemdata from table and spawn new one */
-	if (ItemDataTable && DesiredItemID.IsNone())
+	CLog::Print("initialize pickup called ", -1, 3.f, FColor::Red);
+	if (ItemDataTable && !DesiredItemID.IsNone())
 	{
+		CLog::Print("initialized success", -1, 3.f, FColor::Red);
 		/*rowname = FName , contextstring = my item id */
 		const FItemData* ItemData = ItemDataTable->FindRow<FItemData>(DesiredItemID, DesiredItemID.ToString());
 
 		ItemReference = NewObject<UItemBase>(this, BaseClass);
-
 		ItemReference->ID = ItemData->ID;
 		ItemReference->ItemType = ItemData->ItemType;
 		ItemReference->ItemQuality = ItemData->ItemQuality;
@@ -118,7 +119,7 @@ void ACPickup::EndFocus()
 {
 	if (PickupMesh)
 	{
-		PickupMesh->SetRenderCustomDepth(true);
+		PickupMesh->SetRenderCustomDepth(false);
 	}
 }
 
