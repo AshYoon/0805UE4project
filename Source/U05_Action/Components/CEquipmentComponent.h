@@ -9,43 +9,8 @@
 
 
 
-USTRUCT(BlueprintType)
-struct F_EquipmentSlot
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere)
-	F_Item Items;
 
 
-	uint8 ActiveItemIndex;
-
-
-	bool isHidden;
-
-
-};
-
-UENUM(BlueprintType)
-enum class E_CombatType : uint8
-{
-	Unarmed,
-	Melee,
-	Range,
-	Magic,
-
-};
-
-UENUM(BlueprintType)
-enum class E_WeaponType : uint8
-{
-	None,
-	Sword,
-	Axe,
-	Bow,
-	Magic,
-
-};
 
 
 
@@ -59,8 +24,7 @@ public:
 	// Sets default values for this component's properties
 	UCEquipmentComponent();
 
-	void SetEquipment(F_Item* item);
-	void RemoveEquipment(E_ItemType Type);
+
 
 
 
@@ -69,7 +33,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	TArray<F_EquipmentSlot> Equipment;
+
 
 
 

@@ -13,6 +13,10 @@ UCEquipmentComponent::UCEquipmentComponent()
 }
 
 
+void UCEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+}
+
 // Called when the game starts
 void UCEquipmentComponent::BeginPlay()
 {
@@ -25,24 +29,5 @@ void UCEquipmentComponent::BeginPlay()
 
 
 
-void UCEquipmentComponent::SetEquipment(F_Item * item)
-{
 
-
-
-
-
-}
-
-void UCEquipmentComponent::RemoveEquipment(E_ItemType Type)
-{
-}
-
-// Called every frame
-void UCEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
 

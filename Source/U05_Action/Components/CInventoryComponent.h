@@ -7,84 +7,7 @@
 
 
 
-UENUM(BlueprintType)
-enum class E_ItemType : uint8
-{
-	None,
-	Shield,
-	Head,
-	Top,
-	Legs,
-	Hand,
-	Feet,
-	Arrows,
-	Tool,
-	Material,
-	Ring,
-	MeleeWeapon,
-	RangeWeapon,
-	Necklace,
 
-};
-
-
-
-
-
-USTRUCT(BlueprintType)
-struct F_Stat
-{
-	GENERATED_BODY()
-
-
-
-
-	UPROPERTY(EditAnywhere)
-	uint8 ModifierValue; // increase player stat
-};
-
-
-
-USTRUCT(BlueprintType)
-struct F_Item
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere)
-	FName Name;
-
-	UPROPERTY(EditAnywhere)
-	FString Description;
-
-	UPROPERTY(EditAnywhere)
-	E_ItemType Type;
-
-	UPROPERTY(EditAnywhere)
-	TArray<F_Stat> ItemStat;
-
-	UPROPERTY(EditAnywhere)
-	bool IsStackable;
-
-	UPROPERTY(EditAnywhere)
-	bool IsDroppable;
-
-	UPROPERTY(EditAnywhere)
-	bool IsConsumable;
-
-	UPROPERTY(EditAnywhere, Category = "Item Properties")
-		UTexture2D* ItemThumbnail; // Item ThumNail
-
-
-	UPROPERTY(EditAnywhere, Category = "Item Properties")
-		class UStaticMeshComponent* ItemMesh;
-
-
-	
-
-
-
-
-};
 
 
 
@@ -106,33 +29,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UPROPERTY(EditAnywhere)
-	TArray<F_Item> Inventory;
-
-
-
-	TArray<F_Item> GetInventory() { return Inventory; }
-
-
-    // it could be found more than 1 Item 
-	TArray<uint8> FindIndexByType(E_ItemType Type);
-
-	void AddItem(F_Item item);
-
-	void RemoveItem(uint8 index);
-
-	void ClearInventory();
-
-	void DropItem(uint8 index);
-
-	void UseItem(uint8 index);
-
 
 
 private:
-	//uint8 index;
 
-	bool IsSlotEmpty(uint8 index);
-
-		
 };

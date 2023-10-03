@@ -110,8 +110,6 @@ private:
 		class UCStateComponent* State;
 
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-		class UCInventoryComponent* CInventory;
 
 	UPROPERTY(EditAnywhere, Category = "Equipment")
 		class UCEquipmentComponent* Equipment;
