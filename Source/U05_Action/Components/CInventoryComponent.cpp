@@ -27,11 +27,59 @@ void UCInventoryComponent::BeginPlay()
 
 }
 
-
-void UCInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+FItemAddResult UCInventoryComponent::HandleNonStackableItem(UItemBase *, int32 RequestedAddAmount)
 {
-	//Super::
-		TickComponent(DeltaTime, TickType, ThisTickFunction);
+	return FItemAddResult();
+}
 
-	// ...
+int32 UCInventoryComponent::HandleStackableItems(UItemBase *, int32 RequestedAddAmount)
+{
+	return int32();
+}
+
+int32 UCInventoryComponent::CaculateWeightAddAmoint(UItemBase *, int32 RequestedAddAmount)
+{
+	return int32();
+}
+
+int32 UCInventoryComponent::CaculateNumberForFullStack(UItemBase * ExistingItem, int32 RequestedAddAmount)
+{
+	return int32();
+}
+
+void UCInventoryComponent::AddNewItem(UItemBase * item, const int32 AmountToAdd)
+{
+}
+
+UItemBase * UCInventoryComponent::FindMathingItem(UItemBase * ItemIn) const
+{
+	return nullptr;
+}
+
+UItemBase * UCInventoryComponent::FindNextItemById(UItemBase * ItemIn) const
+{
+	return nullptr;
+}
+
+UItemBase * UCInventoryComponent::FindNextPartialStack(UItemBase * ItemIn) const
+{
+	return nullptr;
+}
+
+FItemAddResult UCInventoryComponent::HandleAddItem(UItemBase * InputItem)
+{
+	return FItemAddResult();
+}
+
+void UCInventoryComponent::RemoveSingleInstanceOfItem(UItemBase * ItemIn)
+{
+}
+
+int32 UCInventoryComponent::RemoveAmountOfItem(UItemBase * ItemIn, int32 DesiredAmountToRemove)
+{
+	return int32();
+}
+
+void UCInventoryComponent::SplitExistingStack(UItemBase * ItemIn, const int32 AmointToSplit)
+{
 }
