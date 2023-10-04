@@ -4,10 +4,17 @@
 #include "Items/ItemBase.h"
 #include "Components/CInventoryComponent.h"
 
-
-UItemBase::UItemBase()
+// meeber initializer list , initialize variable at the time of constructor , initialize befor the body of constructor
+UItemBase::UItemBase() : bIsCopy(false), bIsPickup(false)
 {
 
+
+}
+
+void UItemBase::ResetItemFlags()
+{
+	bIsCopy = false;
+	bIsPickup = false;
 
 }
 
@@ -31,10 +38,12 @@ UItemBase * UItemBase::CreateItemCopy() const
 	ItemCopy->NumbericData = this->NumbericData;
 	ItemCopy->ItemStatisics = this->ItemStatisics;
 	ItemCopy->AssetData = this->AssetData;
-
+	ItemCopy->bIsCopy = true;
 
 	return ItemCopy;
 }
+
+
 
 void UItemBase::SetQuanity(const int32 NewQuanity)
 {

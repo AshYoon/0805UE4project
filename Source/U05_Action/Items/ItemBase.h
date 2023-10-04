@@ -55,6 +55,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Item ")
 		FItemAssetData AssetData;
 
+	bool bIsCopy;
+	bool bIsPickup;
+
+
 	//=========================================================================
 	//                       FUNCTIONS 
 	//=========================================================================
@@ -63,7 +67,7 @@ public:
 
 	UItemBase * CreateItemCopy() const ;
 
-
+	void ResetItemFlags();
 	// 컴파일러가 함수 호출을 함수의 실제코드로 대체하는 인라인함수를 사용하는 Unreal Macro
 	// 성능 향상, 함수가 인라인된다는것을 절대적으로 보장하는것은 아님
 	// 일반적으로 Getter Setter에서 사용됨 , 함수호출 오버헤드를 줄인다 

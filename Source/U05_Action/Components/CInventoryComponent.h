@@ -188,7 +188,7 @@ protected:
 
 
 	virtual void BeginPlay() override;
-	FItemAddResult HandleNonStackableItem(UItemBase* ItemIn, int32 RequestedAddAmount);
+	FItemAddResult HandleNonStackableItem(UItemBase* InputItem, int32 RequestedAddAmount);
 	int32 HandleStackableItems(UItemBase* ItemIn, int32 RequestedAddAmount);
 	int32 CaculateWeightAddAmoint(UItemBase* ItemIn, int32 RequestedAddAmount);
 	int32 CaculateNumberForFullStack(UItemBase* StackableItem, int32 InitialRequestedAddAmount);
