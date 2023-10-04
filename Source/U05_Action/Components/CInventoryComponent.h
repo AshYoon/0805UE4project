@@ -5,6 +5,8 @@
 #include "CInventoryComponent.generated.h"
 
 class UItemBase;
+/*this type of delegate will now will be valid for use */
+DECLARE_MULTICAST_DELEGATE(FOnInventoryUpdated);
 
 /*to describes add result */
 UENUM(BlueprintType)
@@ -99,6 +101,10 @@ public:
 	//                       PROPERTIES & VARIABLES
 	//=========================================================================
 	/* no public variable , */
+	/* DELEGATE  SEND A  SIGNAL AND there's broadcaster and subscriber 
+	broadcaster send signal -> anyclass that subcribes to it will then be notified and can take action */
+	/* delegate instance*/
+	FOnInventoryUpdated OnInventoryUpdated;
 
 	//=========================================================================
 	//                       FUNCTIONS 
@@ -119,7 +125,7 @@ public:
 	FItemAddResult HandleAddItem(UItemBase* InputItem);
 
 	UFUNCTION(Category = "Inventory")
-	void RemoveSingleInstanceOfItem(UItemBase* ItemIn);
+	void RemoveSingleInstanceOfItem(UItemBase* ItemToRemove);
 
 	UFUNCTION(Category = "Inventory")
 	int32 RemoveAmountOfItem(UItemBase* ItemIn, int32 DesiredAmountToRemove);
@@ -168,10 +174,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	TArray<UItemBase*> InventoryContents;
 
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	UPROPERTY(EditInstanceOnly, Category = "Inventory")
 	int32 InventorySlotsCapacity;
 
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	UPROPERTY(EditInstanceOnly, Category = "Inventory")
 	float InventoryWeightCapacity;
 	
 
@@ -182,12 +188,12 @@ protected:
 
 
 	virtual void BeginPlay() override;
-	FItemAddResult HandleNonStackableItem(UItemBase*, int32 RequestedAddAmount);
-	int32 HandleStackableItems(UItemBase*, int32 RequestedAddAmount);
-	int32 CaculateWeightAddAmoint(UItemBase*, int32 RequestedAddAmount);
-	int32 CaculateNumberForFullStack(UItemBase* ExistingItem, int32 RequestedAddAmount);
+	FItemAddResult HandleNonStackableItem(UItemBase* ItemIn, int32 RequestedAddAmount);
+	int32 HandleStackableItems(UItemBase* ItemIn, int32 RequestedAddAmount);
+	int32 CaculateWeightAddAmoint(UItemBase* ItemIn, int32 RequestedAddAmount);
+	int32 CaculateNumberForFullStack(UItemBase* StackableItem, int32 InitialRequestedAddAmount);
 
-	void AddNewItem(UItemBase* item, const int32 AmountToAdd);
+	void AddNewItem(UItemBase* Item, const int32 AmountToAdd);
 
 
 

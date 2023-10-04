@@ -2,6 +2,8 @@
 
 
 #include "Items/ItemBase.h"
+#include "Components/CInventoryComponent.h"
+
 
 UItemBase::UItemBase()
 {
@@ -48,7 +50,7 @@ void UItemBase::SetQuanity(const int32 NewQuanity)
 			if (Quanity <= 0)
 			{
 				//amount <= 0 , remove item , it's mean use last item or loose item 
-				//OwningInventory->RemoveItem(this);
+				OwningInventory->RemoveSingleInstanceOfItem(this);
 			}
 		}
 	}

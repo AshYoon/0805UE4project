@@ -8,6 +8,8 @@
 #include "Characters/CPlayer.h"
 #include "ItemBase.generated.h"
 
+class UCInventoryComponent;
+
 /**
  * 
  */
