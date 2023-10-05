@@ -156,7 +156,7 @@ public:
 
 
 
-
+	
 private:
 
 
@@ -180,7 +180,8 @@ protected:
 	UPROPERTY(EditInstanceOnly, Category = "Inventory")
 	float InventoryWeightCapacity;
 	
-
+	UPROPERTY(EditInstanceOnly, Category = "InventroyIDETest")
+	UItemBase* InventoryIDETest;
 	//=========================================================================
 	//                       FUNCTIONS 
 	//=========================================================================
