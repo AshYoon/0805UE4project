@@ -18,6 +18,8 @@
 InteractionDataStruct - info of Interaction 
 */
 class ACHUD;
+class UCInventoryComponent;
+
 
 USTRUCT()
 struct FInteractionData
@@ -120,7 +122,10 @@ private:
 	UAudioComponent* FootAudioComponent;
 
 public:
-	FORCEINLINE class UCUserWidget_ActionList* GetActionList() { return ActionList; }
+	FORCEINLINE class UCUserWidget_ActionList* GetActionList() { return ActionList; };
+	FORCEINLINE UCInventoryComponent* GetInventory() const { return PlayerInventory; };
+
+	void UpdateInteractionWidget() const;
 
 	// the players help Text
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HUD")
@@ -190,6 +195,9 @@ protected:
 	// what we hit with linetrace
 	UPROPERTY(VisibleAnywhere, Category = "Character | Interaction")
 	TScriptInterface<IInteractionInterface> TargetInteractable;
+
+	UPROPERTY(VisibleAnywhere, Category = "Character | Inventory")
+	UCInventoryComponent* PlayerInventory;
 
 	float InteractionCheckFrequency;
 	

@@ -2,7 +2,6 @@
 #include "Global.h"
 #include "CEnemy_AI.h"
 #include "CPlayer.h"
-
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Components/CBehaviorComponent.h"
@@ -13,7 +12,10 @@ ACAIController::ACAIController()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	CHelpers::CreateActorComponent<UBlackboardComponent>(this, &Blackboard, "Blackboard");
+	//CHelpers::CreateActorComponent<UBlackboardComponent>(this, &Blackboard, "Blackboard");
+	
+	MyBlackboard = CHelpers::CreateActorComponent<UBlackboardComponent>(this, FName("Blackboard"));
+	
 	CHelpers::CreateActorComponent<UAIPerceptionComponent>(this, &Perception, "Perception");
 	CHelpers::CreateActorComponent<UCBehaviorComponent>(this, &Behavior, "Behavior");
 
@@ -64,7 +66,9 @@ void ACAIController::OnPossess(APawn* InPawn)
 	Perception->OnPerceptionUpdated.AddDynamic(this, &ACAIController::OnPerceptionUpdated);
 
 
-	UseBlackboard(OwnerEnemy->GetBehaviorTree()->BlackboardAsset, Blackboard);
+	UseBlackboard(OwnerEnemy->GetBehaviorTree()->BlackboardAsset, MyBlackboard);
+	//this->UseBlackboard(OwnerEnemy->GetBehaviorTree()->BlackboardAsset, Blackboard);
+
 	Behavior->SetBlackboard(Blackboard);
 
 	RunBehaviorTree(OwnerEnemy->GetBehaviorTree());

@@ -56,6 +56,22 @@ public:
 	}
 
 	template<typename T>
+	static void CreateActorComponent(AActor* InActor, TObjectPtr<T> InComponent, FName InName)
+	{ 
+		InComponent = InActor->CreateDefaultSubobject<T>(InName);
+	}
+
+	template<typename T>
+	static T* CreateActorComponent(AActor* InActor, FName InName)
+	{
+		T* NewComponent = InActor->CreateDefaultSubobject<T>(InName);
+		return NewComponent;
+	}
+
+
+
+
+	template<typename T>
 	static void FindActors(class UWorld* InWorld, TArray<T *>& OutActors)
 	{
 		OutActors.Empty();

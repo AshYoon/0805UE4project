@@ -3,6 +3,7 @@
 
 #include "World/CPickup.h"
 #include "Items/ItemBase.h"
+#include "Components/CInventoryComponent.h"
 #include "Global.h"
 
 ACPickup::ACPickup()
@@ -144,13 +145,50 @@ void ACPickup::TakePickup(const ACPlayer * Taker)
 	{
 		if (ItemReference)
 		{
-			//if(UCInventoryComponent* PlayerInventory = Taker->GetInventory())
+
 			// try to add item to player inventory
 			// based on result of the add operation
 			// adjust or destroy the pickup 
+			if (UCInventoryComponent* PlayerInventory = Taker->GetInventory())
+			{
+				const FItemAddResult AddResult = PlayerInventory->HandleAddItem(ItemReference);
+				/*EItemAddResult 에 따라 case 작성   */
+
+
+				switch(AddResult.OperationResult)
+				{
+				case EItemAddResult::IAR_NoItemAdded:
+					break;
+				case EItemAddResult::IAR_PartialAmountItemAdded:
+
+					UpdataInteractableData(); // data update for pickup 
+					Taker->UpdateInteractionWidget(); // update ui for player 
+					break;
+				case EItemAddResult::IAR_AllItemAdded:
+
+
+					Destroy();
+					break;
+				}
+
+				/*역참조(Dereference) 해야지만 print 가능 , */
+				UE_LOG(LogTemp, Warning, TEXT("%s"), *AddResult.ResultMessage.ToString());
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Player inventory component is null!"));
+			}
 
 		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("pickup internal item reference was somehow null"));
+		}
+
+
 	}
+
+
 }
 
 #if WITH_EDITOR

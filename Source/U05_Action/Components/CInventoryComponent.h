@@ -168,11 +168,14 @@ protected:
 	//=========================================================================
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	float InventoryTotalWeight;
-	
-	//TArray<TObjectPtr<UItemBase>> InventoryContents;
-	/* in ue5 use TObjectPtr, UPROPERTY deosn't return Tobjectpointer */
+
+	//migration for this 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	TArray<UItemBase*> InventoryContents;
+	TArray<TObjectPtr<UItemBase>> InventoryContents;
+	/* in ue5 use TObjectPtr, UPROPERTY deosn't return Tobjectpointer */
+	//UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	//TArray<TObjectptr<UItemBase>> InventoryContents;
+
 
 	UPROPERTY(EditInstanceOnly, Category = "Inventory")
 	int32 InventorySlotsCapacity;

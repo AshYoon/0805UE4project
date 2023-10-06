@@ -47,7 +47,7 @@ UItemBase * UCInventoryComponent::FindNextItemById(UItemBase * ItemIn) const
 	if (ItemIn)
 	{
 		/*Get ItemBase pointer to result and findbykey with ItemIn*/
-		if (const TArray<UItemBase*>::ElementType* Result = InventoryContents.FindByKey(ItemIn))
+		if (const TArray<TObjectPtr<UItemBase>>::ElementType* Result = InventoryContents.FindByKey(ItemIn))
 		{
 			/* dereference pointer 역참조해서 리턴한다 만약 result와 InventoryContents ItemIn과 일치하면 */
 			/*double pointer에서 normal pointer로 return */
@@ -61,7 +61,7 @@ UItemBase * UCInventoryComponent::FindNextPartialStack(UItemBase * ItemIn) const
 {
 	/*find by predicate - checks with condition  */
 	/* 최대 stack이 아닌 아이템을 람다 함수를 사용해서 찾기 */
-		if (const TArray<UItemBase*>::ElementType* Result = 
+		if (const TArray<TObjectPtr<UItemBase>>::ElementType* Result =
 			InventoryContents.FindByPredicate([&ItemIn](const UItemBase* InventoryItem)
 		{
 			return InventoryItem->ID == ItemIn->ID && !InventoryItem->IsFullItemStack();
@@ -186,32 +186,32 @@ FItemAddResult UCInventoryComponent::HandleAddItem(UItemBase * InputItem)
 {
 	if (GetOwner())
 	{
-		const int32 InitialRequestedAddAmount = InputItem->Quanity;
+			const int32 InitialRequestedAddAmount = InputItem->Quanity;
 
-		/*for nonStackable item */
-		if (InputItem->NumbericData.bIsStackable)
-		{
-			return HandleNonStackableItem(InputItem, InitialRequestedAddAmount);
-		}
+			/*for nonStackable item */
+			if (InputItem->NumbericData.bIsStackable)
+			{
+					return HandleNonStackableItem(InputItem, InitialRequestedAddAmount);
+			}
 
-		// handle stackable 
-		const int32 StackableAmountAdded = HandleStackableItems(InputItem, InitialRequestedAddAmount);
+			// handle stackable 
+			const int32 StackableAmountAdded = HandleStackableItems(InputItem, InitialRequestedAddAmount);
 
-		if (StackableAmountAdded == InitialRequestedAddAmount)
-		{
-			// return add all result 
-		}
+			if (StackableAmountAdded == InitialRequestedAddAmount)
+			{
+					// return add all result 
+			}
 
-		if (StackableAmountAdded < InitialRequestedAddAmount && StackableAmountAdded > 0)
-		{
-			// return added partial result 
-		}
+			if (StackableAmountAdded < InitialRequestedAddAmount && StackableAmountAdded > 0)
+			{
+					// return added partial result 
+			}
 
-		if (StackableAmountAdded <= 0)
-		{
-			//return added non result 
-		}
-
+			if (StackableAmountAdded <= 0)
+			{
+					//return added non result 
+			}
+	
 
 
 	}
@@ -229,12 +229,16 @@ void UCInventoryComponent::AddNewItem(UItemBase * Item, const int32 AmountToAdd)
 	//some checks 
 	if (Item->bIsCopy || Item->bIsPickup)
 	{
+		/*이미 copy된아이템이거나 레벨에 배치되어있던 item이라면 해당 아이템은 이미 메모리에 참조되어있는 상태 */
+		/* if the item is already a copy , or is a world pickup */
 		NewItem = Item;
 		NewItem->ResetItemFlags();
 
 	}
 	else
 	{
+		// use when splitting or dragging to / from another inventory 
+		/*만약 다른경우라면 copy해도된다 */
 		NewItem = Item->CreateItemCopy();
 	}
 

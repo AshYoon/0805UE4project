@@ -1,6 +1,7 @@
 #include "CPlayer.h"
 #include "CGameMode.h"
 #include "Global.h"
+/*Components */
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/CActionComponent.h"
@@ -8,8 +9,11 @@
 #include "Components/CStatusComponent.h"
 #include "Components/CTargetComponent.h"
 #include "Components/CMontagesComponent.h"
-#include "Widgets/CUserWidget_ActionList.h"
+#include "Components/CInventoryComponent.h"
 #include "Components/CFeetComponent.h"
+
+#include "Widgets/CUserWidget_ActionList.h"
+/* Engine Stuff */
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Materials/MaterialInstanceConstant.h"
@@ -107,6 +111,10 @@ ACPlayer::ACPlayer()
 	//BaseEyeHeight = 150.0f;
 	BaseEyeHeight = 74.0f;
 	//RecalculateBaseEyeHeight();
+
+	PlayerInventory = CreateDefaultSubobject<UCInventoryComponent>(TEXT("PlayerInventory"));
+	PlayerInventory->SetSlotsCapacity(20);
+	PlayerInventory->SetWeightCapacity(50.f);
 		
 }
 
@@ -135,7 +143,9 @@ void ACPlayer::BeginPlay()
 
 	Action->SetUnarmedMode();
 
-	ActionList = CreateWidget<UCUserWidget_ActionList, APlayerController>(GetController<APlayerController>(), ActionListClass);
+	//ActionList = CreateWidget<UCUserWidget_ActionList, APlayerController>(GetController<APlayerController>(), ActionListClass);
+	APlayerController* PlayerController = GetController<APlayerController>();
+	ActionList = CreateWidget<UCUserWidget_ActionList, APlayerController*>(PlayerController, ActionListClass);
 	ActionList->AddToViewport();
 	ActionList->SetVisibility(ESlateVisibility::Hidden);
 	// 키를 눌렀을때 AddToViewPort로 화면에 생성 
@@ -381,6 +391,22 @@ void ACPlayer::Interact()
 
 
 }
+
+
+
+void ACPlayer::UpdateInteractionWidget() const
+{
+	/*do a check ,interaction segment */
+	if (IsValid(TargetInteractable.GetObject()))
+	{
+		HUD->UpdateInteractionWidget(&TargetInteractable->InteractableData);
+	}
+}
+
+
+
+
+
 
 //=========================================================================
 //                      BINDING KEY 
@@ -832,6 +858,7 @@ void ACPlayer::OnTargetRight()
 
 
 // inventory stuff
+
 
 void ACPlayer::UpdateGold(int32 Amount)
 {

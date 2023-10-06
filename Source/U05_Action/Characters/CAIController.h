@@ -26,6 +26,9 @@ private:
 	UPROPERTY(VisibleDefaultsOnly)
 		class UCBehaviorComponent* Behavior;
 
+	UPROPERTY(VisibleDefaultsOnly)
+		class UBlackboardComponent* MyBlackboard;
+
 public:
 	FORCEINLINE float GetMeleeActionRange() { return MeleeActionRange; }
 
